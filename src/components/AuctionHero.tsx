@@ -9,8 +9,9 @@ import {
   Eye,
   Radio,
   Sparkles,
-  Volume2,
-  VolumeX,
+  Layers,
+  Crosshair,
+  Maximize2,
 } from 'lucide-react';
 import type { AuctionConfig, LedgerState } from '../types';
 import { useCountdown } from '../hooks/useCountdown';
@@ -28,13 +29,13 @@ interface Props {
 
 const TimeDigit: React.FC<{ value: string; label: string }> = ({ value, label }) => (
   <div className="flex flex-col items-center">
-    <div className="relative">
-      <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 glass-card-gold flex items-center justify-center rounded-2xl">
+    <div className="relative group">
+      <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 glass-card-gold flex items-center justify-center rounded-2xl cyber-cut-tr">
         <span className="font-display text-xl sm:text-2xl md:text-3xl font-bold text-neon-gold tabular-nums">{value}</span>
       </div>
-      <div className="absolute inset-0 rounded-2xl border border-auction-gold/30 animate-bid-pulse" />
+      <div className="absolute inset-0 rounded-2xl border border-auction-gold/40 animate-bid-pulse pointer-events-none" />
     </div>
-    <span className="text-[10px] font-mono text-slate-500 mt-1.5 uppercase tracking-widest">{label}</span>
+    <span className="text-[10px] font-mono text-slate-400 mt-1.5 uppercase tracking-widest">{label}</span>
   </div>
 );
 
@@ -51,18 +52,18 @@ export const AuctionHero: React.FC<Props> = ({
   const cardRef = useRef<HTMLDivElement>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [revealed, setRevealed] = useState(false);
-  const [soundEnabled, setSoundEnabled] = useState(true);
+  const [wireframeMode, setWireframeMode] = useState(false);
 
   useEffect(() => {
-    const t = setTimeout(() => setRevealed(true), 150);
+    const t = setTimeout(() => setRevealed(true), 120);
     return () => clearTimeout(t);
   }, []);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 16;
-    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 16;
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 18;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 18;
     setMousePos({ x, y });
   };
 
@@ -71,8 +72,13 @@ export const AuctionHero: React.FC<Props> = ({
   };
 
   const handleLotChange = (id: string) => {
-    if (soundEnabled) soundFx.playClick();
+    soundFx.playWarp();
     onSelectLot(id);
+  };
+
+  const toggleWireframe = () => {
+    soundFx.playScan();
+    setWireframeMode(w => !w);
   };
 
   const rarityColors = {
@@ -83,15 +89,15 @@ export const AuctionHero: React.FC<Props> = ({
 
   return (
     <section
-      className="relative min-h-[90vh] flex flex-col justify-center overflow-hidden auction-grid-bg py-6"
+      className="relative min-h-[88vh] flex flex-col justify-center overflow-hidden auction-grid-bg py-6"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
       {/* Ambient background volumetric glow */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[700px] h-[700px] rounded-full bg-auction-gold/5 blur-[140px] animate-glow-breathe" />
+        <div className="w-[750px] h-[750px] rounded-full bg-auction-gold/5 blur-[150px] animate-glow-breathe" />
         <div
-          className="absolute w-[500px] h-[500px] rounded-full bg-vault-purple/5 blur-[100px] animate-glow-breathe"
+          className="absolute w-[550px] h-[550px] rounded-full bg-vault-purple/5 blur-[110px] animate-glow-breathe"
           style={{ animationDelay: '1.8s' }}
         />
       </div>
@@ -101,18 +107,13 @@ export const AuctionHero: React.FC<Props> = ({
         <div className="flex items-center justify-between gap-4 mb-3">
           <div className="flex items-center gap-2">
             <Radio className="w-4 h-4 text-auction-gold animate-pulse" />
-            <span className="text-xs font-mono uppercase tracking-widest text-slate-400">
+            <span className="text-xs font-mono uppercase tracking-widest text-slate-300">
               Active Auction Catalog ({lots.length} Confidential Lots)
             </span>
           </div>
-
-          <button
-            onClick={() => setSoundEnabled(s => !s)}
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-midnight-900/80 border border-white/10 text-xs font-mono text-slate-400 hover:text-auction-gold transition-colors"
-          >
-            {soundEnabled ? <Volume2 className="w-3.5 h-3.5 text-auction-gold" /> : <VolumeX className="w-3.5 h-3.5" />}
-            <span>SFX {soundEnabled ? 'ON' : 'MUTED'}</span>
-          </button>
+          <span className="text-[10px] font-mono text-slate-500 uppercase">
+            PARALLAX 3D VIEWPORT // SOUND REACTIVE
+          </span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -122,10 +123,11 @@ export const AuctionHero: React.FC<Props> = ({
               <button
                 key={lot.id}
                 onClick={() => handleLotChange(lot.id)}
+                onMouseEnter={() => soundFx.playHover()}
                 className={`text-left p-3.5 rounded-xl border transition-all duration-300 relative overflow-hidden group flex items-center gap-3.5 ${
                   isSelected
-                    ? 'bg-gradient-to-r from-auction-gold/15 to-vault-purple/10 border-auction-gold/60 shadow-[0_0_25px_-5px_rgba(245,158,11,0.3)]'
-                    : 'bg-midnight-900/60 border-white/5 hover:border-white/20 hover:bg-midnight-850'
+                    ? 'bg-gradient-to-r from-auction-gold/15 to-vault-purple/10 border-auction-gold/70 shadow-[0_0_28px_-4px_rgba(245,158,11,0.35)]'
+                    : 'bg-midnight-900/70 border-white/5 hover:border-white/25 hover:bg-midnight-850'
                 }`}
               >
                 {/* Thumbnail */}
@@ -175,10 +177,10 @@ export const AuctionHero: React.FC<Props> = ({
         >
           {/* Header Badges */}
           <div className="flex flex-wrap items-center gap-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-auction-gold/30 bg-auction-gold/5">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-auction-gold/30 bg-auction-gold/10">
               <span className="w-2 h-2 rounded-full bg-auction-gold animate-pulse" />
               <span className="text-xs font-mono text-auction-gold uppercase">
-                LOT ID #{config.id} · {ledgerState.bid_count} SEALED BIDS COMMITMENT
+                LOT ID #{config.id} · {ledgerState.bid_count} SEALED BIDS
               </span>
             </div>
 
@@ -202,7 +204,7 @@ export const AuctionHero: React.FC<Props> = ({
           </div>
 
           {/* Technical Specifications HUD */}
-          <div className="glass-card p-4 rounded-xl space-y-3">
+          <div className="glass-card p-4 rounded-xl space-y-3 cyber-cut">
             <div className="flex items-center justify-between border-b border-white/5 pb-2">
               <span className="text-xs font-mono text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
                 <Cpu className="w-3.5 h-3.5 text-auction-gold" /> Cryptographic Lot Parameters
@@ -214,7 +216,7 @@ export const AuctionHero: React.FC<Props> = ({
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {config.specs.map(spec => (
-                <div key={spec.label} className="bg-midnight-900/70 p-2.5 rounded-lg border border-white/5">
+                <div key={spec.label} className="bg-midnight-900/80 p-2.5 rounded-lg border border-white/5">
                   <p className="text-[10px] font-mono text-slate-500 uppercase">{spec.label}</p>
                   <p className="text-xs font-mono font-semibold text-slate-200 mt-0.5 truncate">{spec.value}</p>
                 </div>
@@ -227,9 +229,10 @@ export const AuctionHero: React.FC<Props> = ({
             {ledgerState.auction_open ? (
               <button
                 onClick={() => {
-                  if (soundEnabled) soundFx.playClick();
+                  soundFx.playClick();
                   onOpenBid();
                 }}
+                onMouseEnter={() => soundFx.playHover()}
                 className="btn-gold text-white font-semibold flex items-center gap-2 text-sm sm:text-base py-3.5 px-6"
               >
                 <Lock className="w-4 h-4" />
@@ -244,9 +247,10 @@ export const AuctionHero: React.FC<Props> = ({
 
             <button
               onClick={() => {
-                if (soundEnabled) soundFx.playClick();
+                soundFx.playClick();
                 onOpenVault();
               }}
+              onMouseEnter={() => soundFx.playHover()}
               className="btn-ghost-gold flex items-center gap-2 text-sm sm:text-base py-3.5 px-6"
             >
               <Shield className="w-4 h-4" />
@@ -280,10 +284,10 @@ export const AuctionHero: React.FC<Props> = ({
           {/* Holographic Card Container with 3D Tilt */}
           <div
             ref={cardRef}
-            className="relative w-full max-w-sm aspect-square rounded-2xl overflow-hidden glass-card-gold p-3 group cursor-crosshair"
+            className="relative w-full max-w-sm aspect-square rounded-2xl overflow-hidden glass-card-gold p-3 group cursor-crosshair cyber-cut-tr"
             style={{
-              transform: `perspective(800px) rotateX(${-mousePos.y}deg) rotateY(${mousePos.x}deg)`,
-              transition: 'transform 0.15s ease-out',
+              transform: `perspective(900px) rotateX(${-mousePos.y}deg) rotateY(${mousePos.x}deg)`,
+              transition: 'transform 0.12s ease-out',
             }}
           >
             {/* Holographic Scanline */}
@@ -305,16 +309,37 @@ export const AuctionHero: React.FC<Props> = ({
               PARALLAX: 3D <span className="text-auction-gold font-bold">┘</span>
             </div>
 
-            {/* High-Res Render Image */}
+            {/* Wireframe toggle icon in top bar */}
+            <button
+              onClick={toggleWireframe}
+              className="absolute top-3 right-8 z-30 p-1.5 rounded-lg bg-black/60 border border-white/20 text-slate-300 hover:text-auction-gold transition-colors"
+              title={wireframeMode ? 'Disable Spectral Wireframe' : 'Enable Spectral Wireframe HUD'}
+            >
+              <Crosshair className={`w-3.5 h-3.5 ${wireframeMode ? 'text-auction-gold animate-spin' : ''}`} />
+            </button>
+
+            {/* High-Res Render Image with Spectral Wireframe filter */}
             <div className="relative w-full h-full rounded-xl overflow-hidden bg-midnight-950 border border-auction-gold/30">
               <img
                 src={config.itemImage}
                 alt={config.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter brightness-95 contrast-105"
+                className={`w-full h-full object-cover group-hover:scale-105 transition-all duration-700 ${
+                  wireframeMode
+                    ? 'filter invert hue-rotate-180 brightness-125 contrast-150'
+                    : 'filter brightness-95 contrast-105'
+                }`}
               />
 
               {/* Holographic grid texture overlay */}
-              <div className="absolute inset-0 bg-auction-grid opacity-30 pointer-events-none" />
+              <div className="absolute inset-0 bg-auction-grid opacity-35 pointer-events-none" />
+
+              {/* Wireframe reticle lines if active */}
+              {wireframeMode && (
+                <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+                  <div className="w-32 h-32 rounded-full border border-dashed border-auction-gold/60 animate-spin" />
+                  <div className="absolute text-[10px] font-mono text-auction-gold">SPECTRAL SCAN ACTIVE</div>
+                </div>
+              )}
 
               {/* Bottom Gradient with Reserve Price info */}
               <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-midnight-950 via-midnight-950/80 to-transparent p-4 z-10 flex items-end justify-between">
