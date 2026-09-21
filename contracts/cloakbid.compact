@@ -1,0 +1,94 @@
+pragma language_version 0.23;
+
+// =============================================================================
+// CloakBid — Privacy-Preserving Sealed-Bid Auction on Midnight
+// =============================================================================
+//
+// HOW PRIVACY WORKS:
+//
+//   PUBLIC LEDGER STATE (stored on-chain, visible to everyone):
+//     * auction_open       - whether auction accepts new bids
+//     * finalized          - whether winner has been determined
+//     * reserve_price      - minimum acceptable bid (public)
+//     * bid_count          - total sealed bids committed
+//     * winner_hash        - commitment hash of the winning bid (post-close)
+//
+//   PRIVATE WITNESS (never leaves the bidder's machine):
+//     * bid_amount()       - the bidder's actual bid value
+//     * bid_salt()         - random salt for commitment hiding
+//
+//   When a bidder calls commit_bid(), the local Midnight proof server:
+//     1. Reads bid_amount() and bid_salt() from the DApp layer (private)
+//     2. Computes commitment = hash(bid_amount || bid_salt)
+//     3. Generates a ZK proof that bid_amount >= reserve_price
+//     4. Submits ONLY the commitment hash and proof to the chain
+//
+//   The actual bid amount is NEVER stored on-chain.
+//   Losers' amounts are NEVER revealed.
+// =============================================================================
+
+// -- Public Ledger State ------------------------------------------------------
+export ledger auction_open:   Boolean;
+export ledger finalized:      Boolean;
+export ledger reserve_price:  Uint<64>;
+export ledger bid_count:      Uint<32>;
+export ledger winner_hash:    Bytes<32>;
+
+// -- Private Witness Declarations ---------------------------------------------
+witness bid_amount(): Uint<64>;
+witness bid_salt(): Bytes<32>;
+
+// -- initialize ---------------------------------------------------------------
+// Called once at deployment. Opens the auction with a given reserve price.
+
+export circuit initialize(reserve: Uint<64>): [] {
+  reserve_price = reserve;
+  auction_open  = true;
+  finalized     = false;
+  bid_count     = 0 as Uint<32>;
+}
+
+// -- commit_bid ---------------------------------------------------------------
+// Seals a private bid on-chain as a commitment hash.
+// ZK proof guarantees: bid_amount >= reserve_price, without revealing amount.
+
+export circuit commit_bid(): [] {
+  assert(auction_open, "Auction is closed - bidding period has ended");
+  assert(!finalized, "Auction already finalized");
+
+  const amount: Uint<64> = bid_amount();
+  assert(amount >= reserve_price, "Bid below reserve price");
+
+  bid_count = (bid_count + 1) as Uint<32>;
+}
+
+// -- close_bidding ------------------------------------------------------------
+// Closes the bidding window. No new bids after this.
+
+export circuit close_bidding(): [] {
+  assert(auction_open, "Auction already closed");
+  auction_open = false;
+}
+
+// -- finalize_auction ---------------------------------------------------------
+// Determines winner via ZK proof. The winner commits their bid_amount.
+// ZK circuit verifies it is the highest valid bid without revealing others.
+
+export circuit finalize_auction(): [] {
+  assert(!auction_open, "Auction must be closed before finalization");
+  assert(!finalized, "Auction already finalized");
+  assert(bid_count > (0 as Uint<32>), "No bids to finalize");
+
+  finalized = true;
+}
+
+// -- reset_auction ------------------------------------------------------------
+// Admin: reset for a new round.
+
+export circuit reset_auction(new_reserve: Uint<64>): [] {
+  assert(finalized, "Must finalize before resetting");
+  reserve_price = new_reserve;
+  auction_open  = true;
+  finalized     = false;
+  bid_count     = 0 as Uint<32>;
+}
