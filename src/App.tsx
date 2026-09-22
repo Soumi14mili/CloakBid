@@ -3,6 +3,7 @@ import { CosmicAuctionBackground } from './components/CosmicAuctionBackground';
 import { CyberHUDFrame } from './components/CyberHUDFrame';
 import { CyberTerminalDrawer } from './components/CyberTerminalDrawer';
 import { AuctionHeader } from './components/AuctionHeader';
+import { CyberCommandCenter } from './components/CyberCommandCenter';
 import { AuctionHero } from './components/AuctionHero';
 import { AuctionStats } from './components/AuctionStats';
 import { AuctionPhaseStepper } from './components/AuctionPhaseStepper';
@@ -32,9 +33,10 @@ import {
   ExternalLink,
   Layers,
   Terminal,
+  LayoutGrid,
 } from 'lucide-react';
 
-type Tab = 'bid' | 'vault' | 'prover' | 'circuit' | 'settlement' | 'privacy' | 'history' | 'admin';
+type Tab = 'command' | 'bid' | 'vault' | 'prover' | 'circuit' | 'settlement' | 'privacy' | 'history' | 'admin';
 
 export const App: React.FC = () => {
   const { wallet, isLaceAvailable, connect, disconnect, claimFaucet } = useLaceWallet();
@@ -56,7 +58,7 @@ export const App: React.FC = () => {
     initializeAuction,
   } = useCloakBid();
 
-  const [activeTab, setActiveTab] = useState<Tab>('bid');
+  const [activeTab, setActiveTab] = useState<Tab>('command');
   const [proverDismissed, setProverDismissed] = useState(false);
   const [terminalOpen, setTerminalOpen] = useState(false);
 
@@ -79,6 +81,13 @@ export const App: React.FC = () => {
   };
 
   const tabs: Array<{ id: Tab; label: string; icon: React.ReactNode; color: string; badge?: string }> = [
+    {
+      id: 'command',
+      label: 'Command Center',
+      icon: <LayoutGrid className="w-4 h-4" />,
+      color: 'auction-gold',
+      badge: 'BENTO',
+    },
     { id: 'bid', label: 'Bid Chamber', icon: <Lock className="w-4 h-4" />, color: 'auction-gold' },
     {
       id: 'vault',
@@ -88,17 +97,17 @@ export const App: React.FC = () => {
       badge: commitments.length > 0 ? commitments.length.toString() : undefined,
     },
     {
+      id: 'circuit',
+      label: 'ZK Architecture',
+      icon: <Layers className="w-4 h-4" />,
+      color: 'cipher-teal',
+    },
+    {
       id: 'prover',
       label: 'ZK Prover',
       icon: <Cpu className="w-4 h-4" />,
       color: 'cipher-teal',
       badge: circuitStep !== 'idle' ? '●' : undefined,
-    },
-    {
-      id: 'circuit',
-      label: 'ZK Architecture',
-      icon: <Layers className="w-4 h-4" />,
-      color: 'cipher-teal',
     },
     { id: 'settlement', label: 'Settlement', icon: <Trophy className="w-4 h-4" />, color: 'auction-gold' },
     { id: 'privacy', label: 'Privacy Audit', icon: <Shield className="w-4 h-4" />, color: 'amber' },
@@ -113,10 +122,11 @@ export const App: React.FC = () => {
   ];
 
   const TAB_ACTIVE_CLASSES: Record<Tab, string> = {
+    command: 'bg-gradient-to-r from-auction-gold/25 via-amber-500/20 to-vault-purple/20 text-auction-gold border-auction-gold/80 shadow-[0_0_20px_-2px_rgba(245,158,11,0.5)]',
     bid: 'bg-gradient-to-r from-auction-gold/20 to-amber-600/20 text-auction-gold border-auction-gold/60 shadow-[0_0_16px_-2px_rgba(245,158,11,0.45)]',
     vault: 'bg-gradient-to-r from-vault-purple/20 to-indigo-600/20 text-vault-purple-light border-vault-purple/60 shadow-[0_0_16px_-2px_rgba(139,92,246,0.45)]',
-    prover: 'bg-gradient-to-r from-cipher-teal/20 to-blue-600/20 text-cipher-teal border-cipher-teal/60 shadow-[0_0_16px_-2px_rgba(6,182,212,0.45)]',
     circuit: 'bg-gradient-to-r from-cipher-teal/20 to-emerald-600/20 text-cipher-teal border-cipher-teal/60 shadow-[0_0_16px_-2px_rgba(6,182,212,0.45)]',
+    prover: 'bg-gradient-to-r from-cipher-teal/20 to-blue-600/20 text-cipher-teal border-cipher-teal/60 shadow-[0_0_16px_-2px_rgba(6,182,212,0.45)]',
     settlement: 'bg-gradient-to-r from-auction-gold/20 to-amber-600/20 text-auction-gold border-auction-gold/60 shadow-[0_0_16px_-2px_rgba(245,158,11,0.45)]',
     privacy: 'bg-gradient-to-r from-amber-600/20 to-orange-600/20 text-amber-400 border-amber-500/60 shadow-[0_0_16px_-2px_rgba(245,158,11,0.35)]',
     history: 'bg-gradient-to-r from-slate-600/20 to-slate-700/20 text-slate-300 border-slate-500/60',
@@ -160,28 +170,11 @@ export const App: React.FC = () => {
 
       {/* Main Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 relative z-10 space-y-6">
-        {/* Hero */}
-        <AuctionHero
-          config={auctionConfig}
-          lots={lots}
-          selectedLotId={selectedLotId}
-          onSelectLot={selectLot}
-          ledgerState={ledgerState}
-          onOpenBid={() => handleTab('bid')}
-          onOpenVault={() => handleTab('vault')}
-        />
-
         {/* Network pulse & live stats */}
         <NetworkPulse />
 
         {/* Contract banner */}
         <ContractBanner />
-
-        {/* Stats row */}
-        <AuctionStats ledgerState={ledgerState} />
-
-        {/* Phase stepper */}
-        <AuctionPhaseStepper ledgerState={ledgerState} />
 
         {/* Navigation tabs */}
         <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-midnight-800/80 scrollbar-none">
@@ -212,18 +205,54 @@ export const App: React.FC = () => {
         </div>
 
         {/* Tab content */}
-        <div className="min-h-[400px]">
+        <div className="min-h-[500px]">
+          {/* Flagship Panoramic View: Command Center Bento Grid */}
+          {activeTab === 'command' && (
+            <div className="space-y-6">
+              <CyberCommandCenter
+                config={auctionConfig}
+                lots={lots}
+                selectedLotId={selectedLotId}
+                onSelectLot={selectLot}
+                ledgerState={ledgerState}
+                commitments={commitments}
+                myCommitmentHash={myCommitmentHash}
+                circuitStep={circuitStep}
+                wallet={wallet}
+                onCommitBid={async amount => {
+                  setProverDismissed(false);
+                  await commitBid(amount);
+                }}
+                onConnectWallet={connect}
+                onOpenTab={handleTab}
+              />
+              <AuctionStats ledgerState={ledgerState} />
+              <AuctionPhaseStepper ledgerState={ledgerState} />
+            </div>
+          )}
+
           {activeTab === 'bid' && (
-            <AuctionChamber
-              ledgerState={ledgerState}
-              circuitStep={circuitStep}
-              wallet={wallet}
-              onCommitBid={async amount => {
-                setProverDismissed(false);
-                await commitBid(amount);
-              }}
-              onConnectWallet={connect}
-            />
+            <div className="space-y-6">
+              <AuctionHero
+                config={auctionConfig}
+                lots={lots}
+                selectedLotId={selectedLotId}
+                onSelectLot={selectLot}
+                ledgerState={ledgerState}
+                onOpenBid={() => handleTab('bid')}
+                onOpenVault={() => handleTab('vault')}
+              />
+              <AuctionChamber
+                ledgerState={ledgerState}
+                circuitStep={circuitStep}
+                wallet={wallet}
+                onCommitBid={async amount => {
+                  setProverDismissed(false);
+                  await commitBid(amount);
+                }}
+                onConnectWallet={connect}
+              />
+            </div>
           )}
 
           {activeTab === 'vault' && (
