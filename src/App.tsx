@@ -20,6 +20,7 @@ import { NetworkPulse } from './components/NetworkPulse';
 import { useLaceWallet } from './hooks/useLaceWallet';
 import { useCloakBid } from './hooks/useCloakBid';
 import { soundFx } from './utils/audio';
+import cloakbidLogo from './assets/images/cloakbid_logo.svg';
 import {
   Gavel,
   Shield,
@@ -352,7 +353,7 @@ export const App: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <img
-              src="/images/cloakbid_logo.svg"
+              src={cloakbidLogo}
               alt="CloakBid"
               className="w-7 h-7 object-contain filter drop-shadow-[0_0_8px_rgba(245,158,11,0.6)]"
             />

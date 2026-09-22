@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <defs>
+    <!-- Gold Gradient -->
+    <linearGradient id="goldGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE68A" />
+      <stop offset="50%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#B45309" />
+    </linearGradient>
+
+    <!-- Violet Cyber Gradient -->
+    <linearGradient id="cyberViolet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C084FC" />
+      <stop offset="100%" stop-color="#6B21A8" />
+    </linearGradient>
+
+    <!-- Shield Inner -->
+    <linearGradient id="shieldBg" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#1E1B4B" />
+      <stop offset="100%" stop-color="#06080D" />
+    </linearGradient>
+
+    <!-- Filter Glow -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="120" height="120" rx="28" fill="#06080D" stroke="url(#goldGlow)" stroke-width="1.5" stroke-opacity="0.3"/>
+
+  <!-- Outer Cyber Circuit Ring -->
+  <circle cx="60" cy="60" r="50" stroke="#F59E0B" stroke-width="1" stroke-dasharray="8 6" stroke-opacity="0.4"/>
+  <circle cx="60" cy="60" r="54" stroke="#8B5CF6" stroke-width="0.75" stroke-dasharray="4 8" stroke-opacity="0.3"/>
+
+  <!-- Shield Shape (Backdrop) -->
+  <path d="M60 16 L90 28 C90 62 76 86 60 98 C44 86 30 62 30 28 Z" fill="url(#shieldBg)" stroke="url(#goldGlow)" stroke-width="3" filter="url(#glow)"/>
+
+  <!-- Inner Shield Trim -->
+  <path d="M60 23 L83 33 C83 60 72 79 60 89 C48 79 37 60 37 33 Z" fill="none" stroke="#FCD34D" stroke-width="1.5" stroke-opacity="0.7"/>
+
+  <!-- Circuit traces inside shield -->
+  <path d="M48 42 L54 48 L54 62 L48 68" stroke="#F59E0B" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.6"/>
+  <circle cx="48" cy="42" r="2" fill="#FCD34D"/>
+  <circle cx="48" cy="68" r="2" fill="#FCD34D"/>
+
+  <path d="M72 42 L66 48 L66 62 L72 68" stroke="#F59E0B" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.6"/>
+  <circle cx="72" cy="42" r="2" fill="#FCD34D"/>
+  <circle cx="72" cy="68" r="2" fill="#FCD34D"/>
+
+  <!-- Central 'CB' Monogram / Core Key -->
+  <path d="M52 48 C47 48 43 53 43 58 C43 63 47 68 52 68" stroke="url(#goldGlow)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <path d="M62 48 L71 48 C74 48 76 50 76 53 C76 55.5 74 57.5 71 58 L62 58 L72 58 C75 58 77 60.5 77 63 C77 66 75 68 71 68 L62 68 Z" stroke="url(#goldGlow)" stroke-width="2.5" stroke-linejoin="round" fill="none"/>
+
+  <!-- Futuristic Gavel Slanted Diagonally Across -->
+  <!-- Handle -->
+  <line x1="32" y1="88" x2="74" y2="46" stroke="url(#goldGlow)" stroke-width="4.5" stroke-linecap="round" filter="url(#glow)"/>
+  <line x1="32" y1="88" x2="74" y2="46" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" opacity="0.8"/>
+  <circle cx="30" cy="90" r="3.5" fill="#F59E0B" stroke="#FDE68A" stroke-width="1.5"/>
+
+  <!-- Gavel Head (Cylinder) -->
+  <g transform="rotate(-45 74 46)">
+    <!-- Main head block -->
+    <rect x="62" y="38" width="24" height="16" rx="4" fill="#1E293B" stroke="url(#goldGlow)" stroke-width="2" filter="url(#glow)"/>
+    <!-- Gold bands -->
+    <rect x="65" y="38" width="3" height="16" fill="#FCD34D"/>
+    <rect x="80" y="38" width="3" height="16" fill="#FCD34D"/>
+    <!-- Energy core line -->
+    <line x1="62" y1="46" x2="86" y2="46" stroke="#38BDF8" stroke-width="1.5" opacity="0.8"/>
+  </g>
+
+  <!-- Sparkle Accents -->
+  <polygon points="88,24 90,20 92,24 96,26 92,28 90,32 88,28 84,26" fill="#FDE68A"/>
+  <polygon points="26,44 27.5,41 29,44 32,45.5 29,47 27.5,50 26,47 23,45.5" fill="#FCD34D" opacity="0.7"/>
+</svg>

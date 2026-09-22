@@ -14,6 +14,9 @@ import {
   generateTxHash,
   sleep,
 } from '../utils/crypto';
+import relicImg from '../assets/images/relic.jpg';
+import aiCoreImg from '../assets/images/ai_core.jpg';
+import meshKeyImg from '../assets/images/mesh_key.jpg';
 
 export const AUCTION_LOTS: AuctionConfig[] = [
   {
@@ -25,7 +28,7 @@ export const AUCTION_LOTS: AuctionConfig[] = [
       'The foundational zero-knowledge encrypted cryptographic relic minted on Midnight. Contains on-chain self-verifying recursive SNARK circuits proving authenticity without disclosing owner identity or internal payload.',
     reservePrice: 1500,
     endTime: Date.now() + 2 * 3600 * 1000 + 45 * 60 * 1000,
-    itemImage: '/images/relic.jpg',
+    itemImage: relicImg,
     specs: [
       { label: 'Circuit Family', value: 'Halo2 / PLONK' },
       { label: 'Shielding Level', value: 'Class V (Full Stealth)' },
@@ -42,7 +45,7 @@ export const AUCTION_LOTS: AuctionConfig[] = [
       'Private weights and biases for an autonomous recursive trading & reasoning neural network. Verification performed via zero-knowledge inference proofs; bidder receives exclusive encrypted model decryption keys upon settlement.',
     reservePrice: 3200,
     endTime: Date.now() + 5 * 3600 * 1000 + 12 * 60 * 1000,
-    itemImage: '/images/ai_core.jpg',
+    itemImage: aiCoreImg,
     specs: [
       { label: 'Architecture', value: 'Transformer-Q 70B' },
       { label: 'Inference Privacy', value: 'Zero-Knowledge ML' },
@@ -59,7 +62,7 @@ export const AUCTION_LOTS: AuctionConfig[] = [
       'Restricted optical mesh encrypted uplink license for orbital low-earth telecommunication satellite relay node 09. Allows private decentralized bandwidth routing verifiable through Midnight zero-knowledge attestation.',
     reservePrice: 4800,
     endTime: Date.now() + 8 * 3600 * 1000 + 30 * 60 * 1000,
-    itemImage: '/images/mesh_key.jpg',
+    itemImage: meshKeyImg,
     specs: [
       { label: 'Bandwidth Tier', value: '100 Gbps Laser Link' },
       { label: 'Constellation', value: 'Aetheris Mesh-09' },

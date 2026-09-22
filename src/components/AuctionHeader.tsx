@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Gavel, Wifi, ChevronDown, LogOut, Droplets, Copy, Check, ExternalLink } from 'lucide-react';
 import type { WalletState } from '../types';
 import { soundFx } from '../utils/audio';
+import cloakbidLogo from '../assets/images/cloakbid_logo.svg';
 
 interface Props {
   wallet: WalletState;
@@ -43,7 +44,7 @@ export const AuctionHeader: React.FC<Props> = ({
             <div className="absolute inset-0 rounded-xl bg-auction-gold/15 group-hover:bg-auction-gold/25 transition-all animate-bid-pulse" />
             <div className="absolute -inset-0.5 rounded-xl bg-gradient-to-r from-auction-gold/40 to-vault-purple/40 blur-sm opacity-60 group-hover:opacity-100 transition-opacity" />
             <img
-              src="/images/cloakbid_logo.svg"
+              src={cloakbidLogo}
               alt="CloakBid Logo"
               className="w-10 h-10 object-contain relative z-10 rounded-xl filter drop-shadow-[0_0_8px_rgba(245,158,11,0.5)] group-hover:scale-105 transition-transform"
             />
