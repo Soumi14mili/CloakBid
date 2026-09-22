@@ -373,6 +373,15 @@ export const App: React.FC = () => {
               <span>Shell Console</span>
             </button>
             <a
+              href="https://x.com/xCloakBid"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-auction-gold transition-colors flex items-center gap-1 text-slate-400"
+            >
+              <span className="font-bold text-auction-gold text-xs">𝕏</span>
+              <span>@xCloakBid</span>
+            </a>
+            <a
               href="https://github.com/Soumi14mili/CloakBid"
               target="_blank"
               rel="noreferrer"

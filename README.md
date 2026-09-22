@@ -7,11 +7,11 @@
 [![Midnight Network](https://img.shields.io/badge/Midnight-Preprod%20Testnet-F59E0B)](https://midnight.network)
 [![ZK-SNARK](https://img.shields.io/badge/Privacy-Zero--Knowledge%20Proof-8B5CF6)](https://docs.midnight.network)
 [![License: MIT](https://img.shields.io/badge/License-MIT-06B6D4.svg)](LICENSE)
-[![Twitter Follow](https://img.shields.io/twitter/follow/CloakBidApp?style=social)](https://x.com/CloakBidApp)
+[![Twitter Follow](https://img.shields.io/twitter/follow/xCloakBid?style=social)](https://x.com/xCloakBid)
 
 **The world's first zero-knowledge sealed-bid auction protocol on the Midnight Network.**
 
-[🚀 Live Demo](https://soumi14mili.github.io/CloakBid/) · [📜 Contract on Preprod](https://explorer.midnight.network/contract/mn1q7xk4p9dv2w5r8nj3ht6ys0cqzfa1e8mbgluiop) · [🐦 Follow @CloakBidApp](https://x.com/CloakBidApp) · [📖 Architecture Docs](./docs/ARCHITECTURE.md)
+[🚀 Live Demo](https://soumi14mili.github.io/CloakBid/) · [📜 Contract on Preprod](https://explorer.midnight.network/contract/mn1q7xk4p9dv2w5r8nj3ht6ys0cqzfa1e8mbgluiop) · [🐦 Follow @xCloakBid](https://x.com/xCloakBid) · [📖 Architecture Docs](./docs/ARCHITECTURE.md)
 
 </div>
 
@@ -35,7 +35,7 @@ Using Midnight's **dual-state Compact architecture**, bidders formulate private 
 | **Network** | Midnight Preprod Testnet | [Midnight Portal](https://midnight.network) |
 | **Contract Address** | `mn1q7xk4p9dv2w5r8nj3ht6ys0cqzfa1e8mbgluiop` | [Explorer Contract](https://explorer.midnight.network/contract/mn1q7xk4p9dv2w5r8nj3ht6ys0cqzfa1e8mbgluiop) |
 | **GitHub Repository** | `Soumi14mili/CloakBid` | [GitHub Repo](https://github.com/Soumi14mili/CloakBid) |
-| **Product X (Twitter)** | `@CloakBidApp` | [Follow @CloakBidApp](https://x.com/CloakBidApp) |
+| **Product X (Twitter)** | `@xCloakBid` | [Follow @xCloakBid](https://x.com/xCloakBid) |
 | **Compact Contract** | `contracts/cloakbid.compact` | [View Compact Source](contracts/cloakbid.compact) |
 
 ---
@@ -247,7 +247,7 @@ CloakBid/
 
 ## 🐦 Connect & Community
 
-- **Product Profile on X:** [@CloakBidApp](https://x.com/CloakBidApp)
+- **Product Profile on X:** [@xCloakBid](https://x.com/xCloakBid)
 - **Developer GitHub:** [@Soumi14mili](https://github.com/Soumi14mili)
 - **Midnight Network Documentation:** [docs.midnight.network](https://docs.midnight.network)
 
