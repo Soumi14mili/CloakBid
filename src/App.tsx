@@ -128,7 +128,9 @@ export const App: React.FC = () => {
         </div>
 
         {/* 3. ZK Proof Visualization Pipeline */}
-        <ZKProofPipeline />
+        <div id="zk-pipeline-section">
+          <ZKProofPipeline />
+        </div>
 
         {/* 4. Private State vs Public State Dual Ledger */}
         <div id="dual-state-section">
@@ -151,17 +153,21 @@ export const App: React.FC = () => {
         </div>
 
         {/* 6. Privacy Attack Simulator */}
-        <PrivacyAttackSimulator />
+        <div id="privacy-attack-section">
+          <PrivacyAttackSimulator />
+        </div>
 
         {/* 7. Auction Completion & Cinematic Reveal */}
-        <AuctionCompletionReveal
-          ledgerState={ledgerState}
-          winner={winner}
-          commitments={commitments}
-          onCloseBidding={closeBidding}
-          onFinalizeAuction={finalizeAuction}
-          onResetAuction={() => initializeAuction(auctionConfig.reservePrice)}
-        />
+        <div id="settlement-section">
+          <AuctionCompletionReveal
+            ledgerState={ledgerState}
+            winner={winner}
+            commitments={commitments}
+            onCloseBidding={closeBidding}
+            onFinalizeAuction={finalizeAuction}
+            onResetAuction={() => initializeAuction(auctionConfig.reservePrice)}
+          />
+        </div>
       </main>
 
       {/* Persistent Privacy Status Widget */}

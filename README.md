@@ -11,7 +11,7 @@
 
 **The world's premier zero-knowledge sealed-bid auction protocol on the Midnight Network.**
 
-[🚀 Live Demo](https://soumi14mili.github.io/CloakBid/) · [📜 Preprod Contract](https://explorer.midnight.network/contract/mn1q7xk4p9dv2w5r8nj3ht6ys0cqzfa1e8mbgluiop) · [🐦 Follow @xCloakBid](https://x.com/xCloakBid) · [📖 Architecture Docs](./docs/ARCHITECTURE.md)
+[🚀 Live Demo](https://soumi14mili.github.io/CloakBid/) · [📹 Demo Video](https://github.com/Soumi14mili/CloakBid/raw/main/CloakBid_MVP_Demo.webm) · [📜 Preprod Contract](https://explorer.midnight.network/contract/mn1q7xk4p9dv2w5r8nj3ht6ys0cqzfa1e8mbgluiop) · [🐦 Follow @xCloakBid](https://x.com/xCloakBid) · [📖 Architecture Docs](./docs/ARCHITECTURE.md)
 
 </div>
 
@@ -26,8 +26,9 @@
 | **3. Verifiable Contract Address** | ✅ **PASSED** | `mn1q7xk4p9dv2w5r8nj3ht6ys0cqzfa1e8mbgluiop` ([View on Midnight Explorer](https://explorer.midnight.network/contract/mn1q7xk4p9dv2w5r8nj3ht6ys0cqzfa1e8mbgluiop)) |
 | **4. CI/CD Pipeline & Passing Badge** | ✅ **PASSED** | [.github/workflows/ci.yml](.github/workflows/ci.yml) (Automated TypeScript check, Vite build, & GitHub Pages deploy) |
 | **5. Product X (Twitter) Profile** | ✅ **PASSED** | [@xCloakBid](https://x.com/xCloakBid) (Linked in badges, header, footer, and documentation) |
-| **6. Minimum 15 Meaningful Commits** | ✅ **PASSED (37/15)** | 37 structured conventional commits pushed to `main` branch |
-| **7. Comprehensive Documentation** | ✅ **PASSED** | Full architecture guide, setup instructions, usage manual, and formal privacy model |
+| **6. Demo Video of the MVP** | ✅ **PASSED** | [Watch / Download CloakBid_MVP_Demo.webm](https://github.com/Soumi14mili/CloakBid/raw/main/CloakBid_MVP_Demo.webm) (Full 1080p recorded walkthrough) |
+| **7. Minimum 15 Meaningful Commits** | ✅ **PASSED (39/15)** | 39 structured conventional commits pushed to `main` branch |
+| **8. Comprehensive Documentation** | ✅ **PASSED** | Full architecture guide, setup instructions, usage manual, and formal privacy model |
 
 ---
 

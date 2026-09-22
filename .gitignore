@@ -30,3 +30,6 @@ compact-output/
 
 # Test coverage
 coverage/
+
+# Demo recording temporary frames
+demo_output/
