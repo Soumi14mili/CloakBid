@@ -92,6 +92,10 @@ class SoundEngine {
     setTimeout(() => this.playTone(960, 0.25, 'sine', 0.05), 300);
   }
 
+  public playCommit() {
+    this.playBid();
+  }
+
   // Success sequence
   public playSuccess() {
     if (this.isMuted) return;

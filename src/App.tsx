@@ -1,46 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { CosmicAuctionBackground } from './components/CosmicAuctionBackground';
-import { CyberHUDFrame } from './components/CyberHUDFrame';
-import { CyberTerminalDrawer } from './components/CyberTerminalDrawer';
-import { AuctionHeader } from './components/AuctionHeader';
-import { CyberCommandCenter } from './components/CyberCommandCenter';
-import { AuctionHero } from './components/AuctionHero';
-import { AuctionStats } from './components/AuctionStats';
-import { AuctionPhaseStepper } from './components/AuctionPhaseStepper';
-import { AuctionChamber } from './components/AuctionChamber';
-import { BidCommitmentVault } from './components/BidCommitmentVault';
-import { ZKBidProver } from './components/ZKBidProver';
-import { ZKCircuitVisualizer } from './components/ZKCircuitVisualizer';
-import { WinnerReveal } from './components/WinnerReveal';
-import { PrivacyShieldPanel } from './components/PrivacyShieldPanel';
-import { BidHistoryTimeline } from './components/BidHistoryTimeline';
-import { AdminPanel } from './components/AdminPanel';
-import { ContractBanner } from './components/ContractBanner';
-import { NetworkPulse } from './components/NetworkPulse';
+import React, { useState } from 'react';
+import { CryptographicBackground } from './components/CryptographicBackground';
+import { TopNavbar } from './components/TopNavbar';
+import { LuxuryHero } from './components/LuxuryHero';
+import { PrivateBiddingPanel } from './components/PrivateBiddingPanel';
+import { ZKProofPipeline } from './components/ZKProofPipeline';
+import { DualStateLedger } from './components/DualStateLedger';
+import { SealedBidCapsules } from './components/SealedBidCapsules';
+import { PrivacyAttackSimulator } from './components/PrivacyAttackSimulator';
+import { AuctionCompletionReveal } from './components/AuctionCompletionReveal';
+import { PrivacyStatusWidget } from './components/PrivacyStatusWidget';
 import { useLaceWallet } from './hooks/useLaceWallet';
 import { useCloakBid } from './hooks/useCloakBid';
 import { soundFx } from './utils/audio';
 import cloakbidLogo from './assets/images/cloakbid_logo.svg';
 import {
-  Gavel,
   Shield,
-  Trophy,
-  Clock,
   Lock,
-  Settings,
-  Cpu,
-  BookOpen,
-  Github,
   ExternalLink,
-  Layers,
-  Terminal,
-  LayoutGrid,
+  Plus,
+  X,
+  CheckCircle2,
 } from 'lucide-react';
 
-type Tab = 'command' | 'bid' | 'vault' | 'prover' | 'circuit' | 'settlement' | 'privacy' | 'history' | 'admin';
-
 export const App: React.FC = () => {
-  const { wallet, isLaceAvailable, connect, disconnect, claimFaucet } = useLaceWallet();
+  const { wallet, connect, disconnect, claimFaucet } = useLaceWallet();
   const {
     lots,
     selectedLotId,
@@ -49,7 +32,6 @@ export const App: React.FC = () => {
     ledgerState,
     commitments,
     circuitStep,
-    transactions,
     winner,
     privacySnapshot,
     myCommitmentHash,
@@ -59,359 +41,278 @@ export const App: React.FC = () => {
     initializeAuction,
   } = useCloakBid();
 
-  const [activeTab, setActiveTab] = useState<Tab>('command');
-  const [proverDismissed, setProverDismissed] = useState(false);
-  const [terminalOpen, setTerminalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('auctions');
+  const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [newLotTitle, setNewLotTitle] = useState('');
+  const [newReservePrice, setNewReservePrice] = useState('2000');
+  const [createdSuccess, setCreatedSuccess] = useState(false);
 
-  // Global hotkey: Ctrl+` or ~ to open cyber terminal
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.ctrlKey && e.key === '`') || e.key === '~') {
-        e.preventDefault();
-        soundFx.playClick();
-        setTerminalOpen(o => !o);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
-  const handleTab = (t: Tab) => {
-    soundFx.playClick();
-    setActiveTab(t);
+  // Smooth scroll helper
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
-  const tabs: Array<{ id: Tab; label: string; icon: React.ReactNode; color: string; badge?: string }> = [
-    {
-      id: 'command',
-      label: 'Command Center',
-      icon: <LayoutGrid className="w-4 h-4" />,
-      color: 'auction-gold',
-      badge: 'BENTO',
-    },
-    { id: 'bid', label: 'Bid Chamber', icon: <Lock className="w-4 h-4" />, color: 'auction-gold' },
-    {
-      id: 'vault',
-      label: 'Commitment Vault',
-      icon: <Shield className="w-4 h-4" />,
-      color: 'vault-purple',
-      badge: commitments.length > 0 ? commitments.length.toString() : undefined,
-    },
-    {
-      id: 'circuit',
-      label: 'ZK Architecture',
-      icon: <Layers className="w-4 h-4" />,
-      color: 'cipher-teal',
-    },
-    {
-      id: 'prover',
-      label: 'ZK Prover',
-      icon: <Cpu className="w-4 h-4" />,
-      color: 'cipher-teal',
-      badge: circuitStep !== 'idle' ? '●' : undefined,
-    },
-    { id: 'settlement', label: 'Settlement', icon: <Trophy className="w-4 h-4" />, color: 'auction-gold' },
-    { id: 'privacy', label: 'Privacy Audit', icon: <Shield className="w-4 h-4" />, color: 'amber' },
-    {
-      id: 'history',
-      label: 'Transactions',
-      icon: <Clock className="w-4 h-4" />,
-      color: 'slate',
-      badge: transactions.length > 0 ? transactions.length.toString() : undefined,
-    },
-    { id: 'admin', label: 'Admin', icon: <Settings className="w-4 h-4" />, color: 'vault-purple' },
-  ];
-
-  const TAB_ACTIVE_CLASSES: Record<Tab, string> = {
-    command: 'bg-gradient-to-r from-auction-gold/25 via-amber-500/20 to-vault-purple/20 text-auction-gold border-auction-gold/80 shadow-[0_0_20px_-2px_rgba(245,158,11,0.5)]',
-    bid: 'bg-gradient-to-r from-auction-gold/20 to-amber-600/20 text-auction-gold border-auction-gold/60 shadow-[0_0_16px_-2px_rgba(245,158,11,0.45)]',
-    vault: 'bg-gradient-to-r from-vault-purple/20 to-indigo-600/20 text-vault-purple-light border-vault-purple/60 shadow-[0_0_16px_-2px_rgba(139,92,246,0.45)]',
-    circuit: 'bg-gradient-to-r from-cipher-teal/20 to-emerald-600/20 text-cipher-teal border-cipher-teal/60 shadow-[0_0_16px_-2px_rgba(6,182,212,0.45)]',
-    prover: 'bg-gradient-to-r from-cipher-teal/20 to-blue-600/20 text-cipher-teal border-cipher-teal/60 shadow-[0_0_16px_-2px_rgba(6,182,212,0.45)]',
-    settlement: 'bg-gradient-to-r from-auction-gold/20 to-amber-600/20 text-auction-gold border-auction-gold/60 shadow-[0_0_16px_-2px_rgba(245,158,11,0.45)]',
-    privacy: 'bg-gradient-to-r from-amber-600/20 to-orange-600/20 text-amber-400 border-amber-500/60 shadow-[0_0_16px_-2px_rgba(245,158,11,0.35)]',
-    history: 'bg-gradient-to-r from-slate-600/20 to-slate-700/20 text-slate-300 border-slate-500/60',
-    admin: 'bg-gradient-to-r from-vault-purple/20 to-pink-600/20 text-vault-purple-light border-vault-purple/60 shadow-[0_0_16px_-2px_rgba(139,92,246,0.45)]',
+  const handleNavTab = (tab: string) => {
+    setActiveTab(tab);
+    if (tab === 'auctions') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (tab === 'my-bids') {
+      scrollToSection('sealed-bids-section');
+    } else if (tab === 'analytics') {
+      scrollToSection('dual-state-section');
+    } else if (tab === 'create') {
+      setCreateModalOpen(true);
+    }
   };
+
+  const handleCreateAuction = (e: React.FormEvent) => {
+    e.preventDefault();
+    soundFx.playCommit();
+    setCreatedSuccess(true);
+    setTimeout(() => {
+      setCreatedSuccess(false);
+      setCreateModalOpen(false);
+      setNewLotTitle('');
+    }, 1800);
+  };
+
+  const myBidsCount = commitments.filter(c => c.isMine || c.hash === myCommitmentHash).length;
+  const isProving = circuitStep !== 'idle';
+  const hasBidPlaced = !!myCommitmentHash;
 
   return (
-    <div className="min-h-screen bg-midnight-950 text-slate-100 flex flex-col relative overflow-x-hidden selection:bg-auction-gold/30 selection:text-auction-gold-light">
-      {/* Animated cosmic background */}
-      <CosmicAuctionBackground />
+    <div className="min-h-screen bg-midnight-950 text-slate-100 relative font-sans selection:bg-vault-purple/30 selection:text-white">
+      {/* Subtle Cryptographic Network Canvas Background */}
+      <CryptographicBackground />
 
-      {/* Cybernetic HUD Frame & Tactical Reticle Overlay */}
-      <CyberHUDFrame
-        onToggleTerminal={() => setTerminalOpen(o => !o)}
-        terminalOpen={terminalOpen}
-      />
-
-      {/* Cyberpunk CLI Command Drawer */}
-      <CyberTerminalDrawer
-        isOpen={terminalOpen}
-        onClose={() => setTerminalOpen(false)}
-        ledgerState={ledgerState}
-        lots={lots}
-      />
-
-      {/* ZK Prover fullscreen theater */}
-      <ZKBidProver
-        isOpen={circuitStep !== 'idle' && !proverDismissed}
-        circuitStep={circuitStep}
-        onClose={() => setProverDismissed(true)}
-      />
-
-      {/* Header */}
-      <AuctionHeader
+      {/* Luxury Minimal Top Navigation */}
+      <TopNavbar
         wallet={wallet}
-        isLaceAvailable={isLaceAvailable}
         onConnect={connect}
         onDisconnect={disconnect}
         onClaimFaucet={claimFaucet}
+        activeTab={activeTab}
+        setActiveTab={handleNavTab}
+        userBidCount={myBidsCount}
       />
 
-      {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 relative z-10 space-y-6">
-        {/* Network pulse & live stats */}
-        <NetworkPulse />
+      {/* Main Content Sections */}
+      <main className="relative z-10">
+        {/* 1. Hero & Signature 3D Cryptographic Vault */}
+        <LuxuryHero
+          lots={lots}
+          selectedLotId={selectedLotId}
+          onSelectLot={selectLot}
+          ledgerState={ledgerState}
+          onPlaceBidClick={() => scrollToSection('private-bidding-panel')}
+          isProving={isProving}
+          bidPlaced={hasBidPlaced}
+          myBidAmount={privacySnapshot.clientBidAmount}
+        />
 
-        {/* Contract banner */}
-        <ContractBanner />
-
-        {/* Navigation tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-midnight-800/80 scrollbar-none">
-          {tabs.map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => handleTab(tab.id)}
-              onMouseEnter={() => soundFx.playHover()}
-              className={`relative px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold border transition-all whitespace-nowrap flex items-center gap-2 flex-shrink-0 cyber-cut-tr ${
-                activeTab === tab.id
-                  ? TAB_ACTIVE_CLASSES[tab.id]
-                  : 'text-slate-400 border-transparent hover:text-slate-200 hover:bg-midnight-800/80'
-              }`}
-            >
-              {tab.icon}
-              <span>{tab.label}</span>
-              {tab.badge && (
-                <span
-                  className={`text-[10px] font-mono px-1.5 py-0.5 rounded-full ${
-                    activeTab === tab.id ? 'bg-white/20' : 'bg-midnight-700'
-                  }`}
-                >
-                  {tab.badge}
-                </span>
-              )}
-            </button>
-          ))}
+        {/* 2. Private Bidding Panel */}
+        <div className="px-4 sm:px-6 lg:px-8">
+          <PrivateBiddingPanel
+            reservePrice={auctionConfig.reservePrice}
+            circuitStep={circuitStep}
+            onCommitBid={commitBid}
+            ledgerOpen={ledgerState.auction_open}
+            myCommitmentHash={myCommitmentHash}
+            walletBalance={wallet.balance}
+            isWalletConnected={wallet.connected}
+            onConnectWallet={connect}
+          />
         </div>
 
-        {/* Tab content */}
-        <div className="min-h-[500px]">
-          {/* Flagship Panoramic View: Command Center Bento Grid */}
-          {activeTab === 'command' && (
-            <div className="space-y-6">
-              <CyberCommandCenter
-                config={auctionConfig}
-                lots={lots}
-                selectedLotId={selectedLotId}
-                onSelectLot={selectLot}
-                ledgerState={ledgerState}
-                commitments={commitments}
-                myCommitmentHash={myCommitmentHash}
-                circuitStep={circuitStep}
-                wallet={wallet}
-                onCommitBid={async amount => {
-                  setProverDismissed(false);
-                  await commitBid(amount);
-                }}
-                onConnectWallet={connect}
-                onOpenTab={handleTab}
-              />
-              <AuctionStats ledgerState={ledgerState} />
-              <AuctionPhaseStepper ledgerState={ledgerState} />
-            </div>
-          )}
+        {/* 3. ZK Proof Visualization Pipeline */}
+        <ZKProofPipeline />
 
-          {activeTab === 'bid' && (
-            <div className="space-y-6">
-              <AuctionHero
-                config={auctionConfig}
-                lots={lots}
-                selectedLotId={selectedLotId}
-                onSelectLot={selectLot}
-                ledgerState={ledgerState}
-                onOpenBid={() => handleTab('bid')}
-                onOpenVault={() => handleTab('vault')}
-              />
-              <AuctionChamber
-                ledgerState={ledgerState}
-                circuitStep={circuitStep}
-                wallet={wallet}
-                onCommitBid={async amount => {
-                  setProverDismissed(false);
-                  await commitBid(amount);
-                }}
-                onConnectWallet={connect}
-              />
-            </div>
-          )}
-
-          {activeTab === 'vault' && (
-            <BidCommitmentVault
-              commitments={commitments}
-              myCommitmentHash={myCommitmentHash}
-            />
-          )}
-
-          {activeTab === 'circuit' && (
-            <ZKCircuitVisualizer reservePrice={ledgerState.reserve_price} />
-          )}
-
-          {activeTab === 'prover' && (
-            <div className="glass-card p-8 text-center space-y-6">
-              <Cpu className="w-14 h-14 text-cipher-teal mx-auto animate-glow-breathe" />
-              <div>
-                <h3 className="font-display text-xl font-bold text-white tracking-wider">
-                  ZK PROVER CONSOLE // PLONK KZG
-                </h3>
-                <p className="text-sm text-slate-400 max-w-lg mx-auto mt-2">
-                  The Zero-Knowledge proof theater opens automatically when you commit a bid.
-                  Place a bid in the <strong className="text-auction-gold font-semibold">Bid Chamber</strong> or trigger an automated verification test below.
-                </p>
-              </div>
-
-              <div className="flex flex-wrap items-center justify-center gap-3">
-                <button
-                  onClick={() => {
-                    soundFx.playClick();
-                    handleTab('circuit');
-                  }}
-                  className="btn-gold text-white text-xs font-semibold py-2.5 px-5 flex items-center gap-2"
-                >
-                  <Layers className="w-4 h-4" />
-                  View Interactive Circuit Graph
-                </button>
-                <button
-                  onClick={() => {
-                    soundFx.playClick();
-                    setTerminalOpen(true);
-                  }}
-                  className="btn-ghost-gold text-xs font-semibold py-2.5 px-5 flex items-center gap-2"
-                >
-                  <Terminal className="w-4 h-4" />
-                  Open ZK Shell Terminal
-                </button>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 max-w-lg mx-auto text-left">
-                {[
-                  { name: 'PLONK Prover', desc: '192-byte proofs, universal SRS', badge: 'Active' },
-                  { name: 'Pedersen Hash', desc: 'CSPRNG salt binding', badge: 'Collision-Resistant' },
-                  { name: 'Compact Runtime', desc: 'Midnight v0.23 spec', badge: 'Verified' },
-                ].map(item => (
-                  <div
-                    key={item.name}
-                    className="p-3 rounded-xl bg-midnight-900/80 border border-cipher-teal/20 text-xs font-mono"
-                  >
-                    <div className="flex items-center justify-between text-cipher-teal font-bold mb-1">
-                      <span>{item.name}</span>
-                      <span className="text-[9px] px-1 rounded bg-cipher-teal/15 text-cipher-teal">{item.badge}</span>
-                    </div>
-                    <p className="text-[11px] text-slate-400">{item.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'settlement' && (
-            <WinnerReveal winner={winner} myCommitmentHash={myCommitmentHash} />
-          )}
-
-          {activeTab === 'privacy' && (
-            <PrivacyShieldPanel snapshot={privacySnapshot} />
-          )}
-
-          {activeTab === 'history' && (
-            <BidHistoryTimeline transactions={transactions} />
-          )}
-
-          {activeTab === 'admin' && (
-            <AdminPanel
-              ledgerState={ledgerState}
-              circuitStep={circuitStep}
-              onInitialize={initializeAuction}
-              onCloseBidding={closeBidding}
-              onFinalize={finalizeAuction}
-            />
-          )}
+        {/* 4. Private State vs Public State Dual Ledger */}
+        <div id="dual-state-section">
+          <DualStateLedger
+            ledgerState={ledgerState}
+            myBidAmount={privacySnapshot.clientBidAmount}
+            myBidSalt={privacySnapshot.clientBidSalt}
+            myCommitmentHash={myCommitmentHash}
+            auctionId={auctionConfig.id}
+          />
         </div>
+
+        {/* 5. Sealed Bidder 3D Capsules */}
+        <div id="sealed-bids-section">
+          <SealedBidCapsules
+            commitments={commitments}
+            myCommitmentHash={myCommitmentHash}
+            myBidAmount={privacySnapshot.clientBidAmount}
+          />
+        </div>
+
+        {/* 6. Privacy Attack Simulator */}
+        <PrivacyAttackSimulator />
+
+        {/* 7. Auction Completion & Cinematic Reveal */}
+        <AuctionCompletionReveal
+          ledgerState={ledgerState}
+          winner={winner}
+          commitments={commitments}
+          onCloseBidding={closeBidding}
+          onFinalizeAuction={finalizeAuction}
+          onResetAuction={() => initializeAuction(auctionConfig.reservePrice)}
+        />
       </main>
 
-      {/* Futuristic Cyber Footer */}
-      <footer className="border-t border-midnight-800/80 bg-midnight-950/95 backdrop-blur-md py-8 relative z-10 mt-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <img
-              src={cloakbidLogo}
-              alt="CloakBid"
-              className="w-7 h-7 object-contain filter drop-shadow-[0_0_8px_rgba(245,158,11,0.6)]"
-            />
-            <span className="text-xs font-mono text-slate-400">
-              CloakBid · Confidential Sealed-Bid Auctions on Midnight Preprod
-            </span>
+      {/* Persistent Privacy Status Widget */}
+      <PrivacyStatusWidget
+        hasBid={hasBidPlaced}
+        isFinalized={ledgerState.finalized}
+      />
+
+      {/* Minimal Luxury Footer */}
+      <footer className="relative z-10 border-t border-white/5 bg-midnight-950/90 py-12 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            {/* Logo & Network Tag */}
+            <div className="flex items-center gap-3.5">
+              <img
+                src={cloakbidLogo}
+                alt="CloakBid"
+                className="w-7 h-7 object-contain"
+              />
+              <div>
+                <span className="font-display font-bold text-sm tracking-wider text-white">
+                  CLOAKBID
+                </span>
+                <p className="text-[11px] font-mono text-slate-400">
+                  Confidential Sealed-Bid Auctions on Midnight Preprod
+                </p>
+              </div>
+            </div>
+
+            {/* Contract & Explorer Links */}
+            <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-slate-400">
+              <a
+                href="https://explorer.midnight.network/contract/mn1q7xk4p9dv2w5r8nj3ht6ys0cqzfa1e8mbgluiop"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-vault-purple-light transition-colors flex items-center gap-1.5"
+              >
+                <span>Contract: mn1q7xk...uiop</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+
+              <a
+                href="https://x.com/xCloakBid"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-vault-purple-light transition-colors flex items-center gap-1"
+              >
+                <span>𝕏 @xCloakBid</span>
+              </a>
+
+              <a
+                href="https://github.com/Soumi14mili/CloakBid"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-vault-purple-light transition-colors flex items-center gap-1"
+              >
+                <span>GitHub</span>
+              </a>
+            </div>
           </div>
 
-          <div className="flex items-center gap-6 text-xs text-slate-400 font-mono">
-            <button
-              onClick={() => {
-                soundFx.playClick();
-                setTerminalOpen(true);
-              }}
-              className="hover:text-auction-gold transition-colors flex items-center gap-1"
-            >
-              <Terminal className="w-3.5 h-3.5 text-auction-gold" />
-              <span>Shell Console</span>
-            </button>
-            <a
-              href="https://x.com/xCloakBid"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-auction-gold transition-colors flex items-center gap-1 text-slate-400"
-            >
-              <span className="font-bold text-auction-gold text-xs">𝕏</span>
-              <span>@xCloakBid</span>
-            </a>
-            <a
-              href="https://github.com/Soumi14mili/CloakBid"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-auction-gold transition-colors flex items-center gap-1"
-            >
-              <Github className="w-3.5 h-3.5" />
-              <span>GitHub</span>
-            </a>
-            <a
-              href="https://docs.midnight.network"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-auction-gold transition-colors flex items-center gap-1"
-            >
-              <BookOpen className="w-3.5 h-3.5" />
-              <span>Midnight Docs</span>
-            </a>
-            <a
-              href="https://explorer.midnight.network"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-cipher-teal transition-colors flex items-center gap-1"
-            >
-              <ExternalLink className="w-3.5 h-3.5" />
-              <span>Explorer</span>
-            </a>
+          <div className="mt-8 pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] font-mono text-slate-500">
+            <p>© 2026 CloakBid Protocol. Built for Midnight Network Hackathon.</p>
+            <p className="flex items-center gap-1">
+              <Shield className="w-3.5 h-3.5 text-vault-purple" />
+              <span>Zero-Knowledge Proofs Powered by Compact & Halo2</span>
+            </p>
           </div>
         </div>
       </footer>
+
+      {/* Create Auction Modal */}
+      {createModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-midnight-950/80 backdrop-blur-md">
+          <div className="relative w-full max-w-lg vault-card p-6 sm:p-8 space-y-6 border-vault-purple/30 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between pb-4 border-b border-white/10">
+              <div className="flex items-center gap-2">
+                <Plus className="w-5 h-5 text-vault-purple" />
+                <h3 className="font-display font-bold text-lg text-white">
+                  Create Confidential Auction
+                </h3>
+              </div>
+              <button
+                onClick={() => setCreateModalOpen(false)}
+                className="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center text-slate-400 hover:text-white"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {createdSuccess ? (
+              <div className="py-8 text-center space-y-3">
+                <CheckCircle2 className="w-12 h-12 text-emerald-400 mx-auto animate-bounce" />
+                <h4 className="text-base font-bold text-white font-mono">
+                  AUCTION VAULT CREATED ON PREPROD
+                </h4>
+                <p className="text-xs text-slate-300 font-mono">
+                  Smart contract initialized with zero-knowledge verification parameters.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleCreateAuction} className="space-y-4 font-mono text-xs">
+                <div className="space-y-1.5">
+                  <label className="text-slate-300">Auction Asset Title</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Midnight Genesis Relic #002"
+                    value={newLotTitle}
+                    onChange={e => setNewLotTitle(e.target.value)}
+                    className="vault-input"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-slate-300">Reserve Price (tDUST)</label>
+                  <input
+                    type="number"
+                    required
+                    min="100"
+                    value={newReservePrice}
+                    onChange={e => setNewReservePrice(e.target.value)}
+                    className="vault-input"
+                  />
+                </div>
+
+                <div className="p-3 rounded-xl bg-midnight-950/80 border border-white/5 text-[11px] text-slate-400 space-y-1">
+                  <p className="text-slate-300 font-semibold">Privacy Mode: Shielded Sealed-Bid</p>
+                  <p>All bids submitted to this auction will be encrypted client-side and verified via ZK-SNARKs.</p>
+                </div>
+
+                <div className="pt-2 flex items-center justify-end gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setCreateModalOpen(false)}
+                    className="btn-vault-secondary text-xs !py-2.5 !px-5"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="btn-vault-primary text-xs !py-2.5 !px-6"
+                  >
+                    Deploy Auction Vault
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
