@@ -27,7 +27,10 @@ export interface BidCommitment {
   timestamp: number;
   isMine: boolean;
   truncatedHash: string;
+  bidder?: string;
 }
+
+export type Commitment = BidCommitment;
 
 export interface WalletState {
   connected: boolean;
@@ -51,7 +54,11 @@ export interface WinnerData {
   commitmentHash: string;
   proofHash: string;
   timestamp: number;
+  amount?: number;
+  bidder?: string;
 }
+
+export type WinnerResult = WinnerData;
 
 export interface PrivacySnapshot {
   clientBidAmount: number | null;
