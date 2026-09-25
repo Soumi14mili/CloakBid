@@ -1,7 +1,7 @@
-﻿import { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import type { WalletState } from '../types';
 
-const DEMO_ADDRESS = '0x3fa8...c91d';
+const DEMO_ADDRESS = 'mn_addr_preview19fx47fv4pkvsdrl9wlzw5u4tjcd5kuaf4u3yjqvfrc4xs4lz4dns0wg4jd';
 const DEMO_BALANCE = '12,500.00 tDUST';
 
 export function useLaceWallet() {

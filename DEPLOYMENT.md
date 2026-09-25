@@ -51,7 +51,7 @@ compact deploy \
   --wallet YOUR_LACE_WALLET_ADDRESS
 
 # Expected output:
-# ✓ Contract deployed at: mn1q7xk4p9dv2w5r8nj3ht6ys0cqzfa1e8mbgluiop
+# ✓ Contract deployed at: 51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15
 # ✓ Transaction ID: 0xabc123...
 # ✓ Block confirmed: #1,245,891
 ```
@@ -67,7 +67,7 @@ compact deploy \
 cp .env.example .env
 
 # Edit .env and set your deployed contract address:
-VITE_CONTRACT_ADDRESS=mn1q7xk4p9dv2w5r8nj3ht6ys0cqzfa1e8mbgluiop
+VITE_CONTRACT_ADDRESS=51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15
 VITE_MIDNIGHT_NETWORK=preprod
 ```
 
@@ -105,7 +105,7 @@ npm run preview
 
 | Network | Contract Address | Block Explorer |
 |---------|-----------------|----------------|
-| **Preprod** | `mn1q7xk4p9dv2w5r8nj3ht6ys0cqzfa1e8mbgluiop` | [View on Explorer](https://explorer.midnight.network/contract/mn1q7xk4p9dv2w5r8nj3ht6ys0cqzfa1e8mbgluiop) |
+| **Preprod** | `51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15` | [View on Explorer](https://explorer.midnight.network/contract/51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15) |
 
 ---
 

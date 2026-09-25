@@ -171,7 +171,7 @@ export const App: React.FC = () => {
 
         {/* 8. Technical Details Section (Expandable) */}
         <TransactionDetails
-          contractAddress="mn1q7xk4p9dv2w5r8nj3ht6ys0cqzfa1e8mbgluiop"
+          contractAddress="51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15"
           txHash="0x8f2a1b9c3e4d5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a"
           proofHash="0x3fa8c91d2e4b6a8c0e2b4d6f8a0c2e4b6d8f0a2b4d6f8a0c2e4b6d8f0a2b4d6f"
         />
@@ -209,12 +209,12 @@ export const App: React.FC = () => {
             {/* Contract & Social Links */}
             <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-slate-400">
               <a
-                href="https://explorer.midnight.network/contract/mn1q7xk4p9dv2w5r8nj3ht6ys0cqzfa1e8mbgluiop"
+                href="https://explorer.midnight.network/contract/51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-white transition-colors flex items-center gap-1.5"
               >
-                <span>Contract: mn1q7xk...uiop</span>
+                <span>Contract: 51d23a0...8b15</span>
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
 
