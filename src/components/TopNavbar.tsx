@@ -137,7 +137,7 @@ export const TopNavbar: React.FC<Props> = ({
           {/* Status Indicator */}
           <div className="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-md bg-white/[0.03] border border-white/[0.08] text-[11px] font-mono text-slate-300">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            <span>Midnight Preprod</span>
+            <span>{wallet.network || 'Midnight Preview'}</span>
           </div>
 
           {/* Audio toggle */}
@@ -275,7 +275,7 @@ export const TopNavbar: React.FC<Props> = ({
             <span>Network:</span>
             <span className="text-emerald-400 flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              Midnight Preprod
+              {wallet.network || 'Midnight Preview'}
             </span>
           </div>
         </div>

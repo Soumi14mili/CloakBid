@@ -79,7 +79,7 @@ export const PrivacyStatusWidget: React.FC<Props> = ({
           {/* Enclave Network Footer */}
           <div className="pt-2 border-t border-white/[0.06] flex items-center justify-between text-[10px] font-mono text-slate-400">
             <span>Enclave</span>
-            <span className="text-slate-300">Midnight Preprod</span>
+            <span className="text-slate-300">Midnight Preview</span>
           </div>
         </div>
       ) : (

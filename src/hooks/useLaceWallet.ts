@@ -2,14 +2,14 @@ import { useState, useCallback } from 'react';
 import type { WalletState } from '../types';
 
 const DEMO_ADDRESS = 'mn_addr_preview19fx47fv4pkvsdrl9wlzw5u4tjcd5kuaf4u3yjqvfrc4xs4lz4dns0wg4jd';
-const DEMO_BALANCE = '12,500.00 tDUST';
+const DEMO_BALANCE = '49,384.67 tDUST';
 
 export function useLaceWallet() {
   const [wallet, setWallet] = useState<WalletState>({
     connected: false,
     address: '',
     balance: '0.00 tDUST',
-    network: 'Midnight Preprod',
+    network: 'Midnight Preview',
   });
 
   const isLaceAvailable = typeof window !== 'undefined';
@@ -21,7 +21,7 @@ export function useLaceWallet() {
       connected: true,
       address: DEMO_ADDRESS,
       balance: DEMO_BALANCE,
-      network: 'Midnight Preprod',
+      network: 'Midnight Preview',
     });
   }, []);
 

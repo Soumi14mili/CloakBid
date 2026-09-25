@@ -137,7 +137,7 @@ export const TransactionDetails: React.FC<Props> = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                 <div className="flex items-center justify-between p-2.5 rounded bg-white/[0.02] border border-white/[0.05]">
                   <span className="text-slate-400">Network</span>
-                  <span className="text-slate-200 font-semibold">Midnight Preprod</span>
+                  <span className="text-slate-200 font-semibold">Midnight Preview</span>
                 </div>
 
                 <div className="flex items-center justify-between p-2.5 rounded bg-white/[0.02] border border-white/[0.05]">
