@@ -37,6 +37,9 @@ jobs:
       - name: Run TypeScript type checker
         run: npx tsc --noEmit
 
+      - name: Run unit tests
+        run: npm test
+
   # ── Job 2: Build ────────────────────────────────────────────────────────────
   build:
     name: Vite Production Build

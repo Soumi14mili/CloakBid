@@ -27,7 +27,7 @@
 | **4. CI/CD Pipeline & Passing Badge** | ✅ **PASSED** | [.github/workflows/ci.yml](.github/workflows/ci.yml) (Automated TypeScript check, Vite build, & GitHub Pages deploy) |
 | **5. Product X (Twitter) Profile** | ✅ **PASSED** | [@xCloakBid](https://x.com/xCloakBid) (Linked in badges, header, footer, and documentation) |
 | **6. Demo Video of the MVP** | ✅ **PASSED** | [Watch / Download CloakBid_MVP_Demo.webm](https://github.com/Soumi14mili/CloakBid/raw/main/CloakBid_MVP_Demo.webm) (Full 1080p recorded walkthrough) |
-| **7. Minimum 15 Meaningful Commits** | ✅ **PASSED (43/15)** | 43 structured conventional commits pushed to `main` branch |
+| **7. Minimum 15 Meaningful Commits** | ✅ **PASSED (45+/15)** | 45+ structured conventional commits pushed to `main` branch |
 | **8. Comprehensive Documentation** | ✅ **PASSED** | Full architecture guide, setup instructions, usage manual, and formal privacy model |
 
 ---
@@ -36,7 +36,7 @@
 
 CloakBid is an **institutional-grade, privacy-first sealed-bid auction protocol and DApp** built natively on the [Midnight Network](https://midnight.network) — a Layer 1 blockchain purpose-built for zero-knowledge data protection and regulatory compliance.
 
-Visual Direction: **“Luxury auction house × cryptographic vault × Midnight ZK technology.”**
+Visual Direction: **“Stripe-level clarity × Linear-level polish × Institutional auction credibility × Midnight ZK infrastructure.”**
 
 Using Midnight's **dual-state Compact architecture**, bidders formulate private witness valuations in local browser memory. Bids are locked into 256-bit Pedersen commitments and verified using PLONK zero-knowledge proofs. At settlement, the highest bidder is mathematically determined **without disclosing losing bid amounts, competitor valuations, or participant identities**.
 
