@@ -81,7 +81,7 @@ export const TransactionDetails: React.FC<Props> = ({
                     )}
                   </button>
                   <a
-                    href={`https://explorer.midnight.network/contract/${contractAddress}`}
+                    href={`https://preview.midnightexplorer.com/contracts/${contractAddress}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-1 hover:text-white text-slate-400"

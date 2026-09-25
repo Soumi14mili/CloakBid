@@ -37,7 +37,7 @@ export const TechnicalDetails: React.FC<Props> = ({
   };
 
   const specs = [
-    { label: 'Contract Address', value: contractAddress, isLink: true, link: `https://explorer.midnight.network/contract/${contractAddress}` },
+    { label: 'Contract Address', value: contractAddress, isLink: true, link: `https://preview.midnightexplorer.com/contracts/${contractAddress}` },
     { label: 'Verification Key (VK)', value: '0x7d92f58e1b9c3e4d5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e' },
     { label: 'Settlement Tx Hash', value: txHash },
     { label: 'Halo2 Proof Hash', value: proofHash },

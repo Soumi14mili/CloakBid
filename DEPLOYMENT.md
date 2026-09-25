@@ -105,7 +105,7 @@ npm run preview
 
 | Network | Contract Address | Block Explorer |
 |---------|-----------------|----------------|
-| **Preprod** | `0x51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15` | [View on Explorer](https://explorer.midnight.network/contract/0x51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15) |
+| **Preprod** | `0x51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15` | [View on Explorer](https://preview.midnightexplorer.com/contracts/0x51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15) |
 
 ---
 
@@ -116,7 +116,7 @@ npm run preview
 3. In the **Admin Panel** tab, click **Initialize Auction** with a reserve price
 4. Navigate to **Bid Chamber** and place a sealed bid
 5. Open the **Commitment Vault** to see your on-chain commitment hash
-6. Check the [block explorer](https://explorer.midnight.network) to verify the transaction
+6. Check the [block explorer](https://preview.midnightexplorer.com) to verify the transaction
 
 ---
 

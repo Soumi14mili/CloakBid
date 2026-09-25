@@ -205,7 +205,12 @@ export const AuctionDetailView: React.FC<Props> = ({
           {activeTab === 2 && (
             <div className="card-sub p-5 rounded-xl">
               {[
-                { label: 'Contract Address', value: '0x51d23a07...8b15', mono: true },
+                {
+                  label: 'Contract Address',
+                  value: '0x51d23a07...8b15',
+                  mono: true,
+                  link: 'https://preview.midnightexplorer.com/contracts/0x51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15',
+                },
                 { label: 'Network', value: 'Midnight Preview' },
                 {
                   label: 'Auction Open',
@@ -227,7 +232,7 @@ export const AuctionDetailView: React.FC<Props> = ({
                     : 'Pending',
                   mono: !!ledgerState.winner_hash,
                 },
-              ].map(({ label, value, mono }, i, arr) => (
+              ].map(({ label, value, mono, link }, i, arr) => (
                 <div
                   key={label}
                   className={[
@@ -236,14 +241,26 @@ export const AuctionDetailView: React.FC<Props> = ({
                   ].join(' ')}
                 >
                   <span className="label text-[12px] text-cb-t3">{label}</span>
-                  <span
-                    className={[
-                      'text-[13px] font-medium text-cb-t1',
-                      mono ? 'mono truncate max-w-[220px]' : '',
-                    ].join(' ')}
-                  >
-                    {value}
-                  </span>
+                  {link ? (
+                    <a
+                      href={link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mono text-[13px] font-medium text-cb-accent hover:underline flex items-center gap-1"
+                    >
+                      {value}
+                      <span className="text-[10px]">↗</span>
+                    </a>
+                  ) : (
+                    <span
+                      className={[
+                        'text-[13px] font-medium text-cb-t1',
+                        mono ? 'mono truncate max-w-[220px]' : '',
+                      ].join(' ')}
+                    >
+                      {value}
+                    </span>
+                  )}
                 </div>
               ))}
             </div>

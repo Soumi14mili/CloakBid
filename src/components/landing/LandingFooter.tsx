@@ -69,7 +69,7 @@ export const LandingFooter: React.FC<Props> = ({ onEnterApp }) => {
 
   const networkLinks: FooterLinkItem[] = [
     { label: 'Midnight Network', href: 'https://midnight.network' },
-    { label: 'Preview Explorer', href: 'https://midnight.network' },
+    { label: 'Preview Explorer', href: 'https://preview.midnightexplorer.com/contracts/0x51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15' },
     { label: 'Wallet Setup', href: 'https://midnight.network' },
     { label: 'tDUST Faucet', href: 'https://midnight.network' },
   ];
@@ -172,9 +172,14 @@ export const LandingFooter: React.FC<Props> = ({ onEnterApp }) => {
           <p className="text-[12px] text-cb-t3">
             © 2026 CloakBid Protocol. Built for Midnight Crescent Challenge — Level 4.
           </p>
-          <p className="mono text-[11px] text-cb-t3">
-            Contract: 0x51d23a07...8b15 · Midnight Preview
-          </p>
+          <a
+            href="https://preview.midnightexplorer.com/contracts/0x51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mono text-[11px] text-cb-t3 hover:text-cb-accent transition-colors"
+          >
+            Contract: 0x51d23a07...8b15 · Midnight Preview ↗
+          </a>
         </div>
       </div>
     </footer>
