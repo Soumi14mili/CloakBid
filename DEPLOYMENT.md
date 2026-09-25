@@ -40,6 +40,40 @@ ls -la
 
 ## Step 3 — Deploy Contract to Preprod
 
+### Option A — Node.js SDK Deployment Script (Recommended)
+
+1. **Start the Midnight Proof Server in Docker:**
+   In your Node.js smart contract deployment script, you must explicitly point your application's `ProofProvider` to this local Docker instance so it knows where to send the cryptography requests:
+
+   ```bash
+   docker run -d -p 6300:6300 midnightnetwork/proof-server:latest
+   ```
+
+2. **Initialize Midnight SDK Providers (`contracts/deploy.js`):**
+   ```javascript
+   import { HttpClientProofProvider } from '@midnight-ntwrk/midnight-js-http-client-proof-provider';
+
+   // Connect to the Docker container you just started
+   const proofProvider = new HttpClientProofProvider('http://127.0.0.1:6300');
+   ```
+
+3. **Execute the deployment script:**
+   ```bash
+   node contracts/deploy.js
+   ```
+
+   Expected output:
+   ```text
+   [Config] Target Network: Midnight Preprod
+   [Config] Proof Server:   http://127.0.0.1:6300
+   ✓ ProofProvider configured with http://127.0.0.1:6300
+   ✓ Contract deployment confirmed on-chain!
+   Contract Address: 0x51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15
+   Explorer Link:    https://preview.midnightexplorer.com/contracts/0x51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15
+   ```
+
+### Option B — Deploy using Compact CLI
+
 ```bash
 # Set environment for Preprod
 export MIDNIGHT_NETWORK=preprod
