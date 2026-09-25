@@ -1,158 +1,168 @@
 import React from 'react';
 import {
   Lock,
-  Key,
   FileCode,
   Cpu,
+  Shield,
   CheckCircle2,
   ArrowRight,
-  Shield,
-  Sparkles,
+  ArrowDown,
 } from 'lucide-react';
+import type { CircuitStep } from '../types';
 
-export const ZKProofPipeline: React.FC = () => {
-  const steps = [
+interface Props {
+  circuitStep?: CircuitStep;
+}
+
+export const ZKProofPipeline: React.FC<Props> = ({ circuitStep = 'idle' }) => {
+  const getActiveIndex = (): number => {
+    switch (circuitStep) {
+      case 'idle':
+        return -1;
+      case 'reading-witness':
+        return 0; // PRIVATE BID
+      case 'hashing':
+        return 1; // COMMITMENT
+      case 'proving':
+        return 2; // ZK PROOF
+      case 'submitting':
+        return 3; // VERIFICATION
+      case 'confirmed':
+        return 4; // SEALED BID
+      default:
+        return -1;
+    }
+  };
+
+  const activeIndex = getActiveIndex();
+  const isProving = circuitStep !== 'idle';
+
+  const stages = [
     {
-      num: '01',
       title: 'PRIVATE BID',
       icon: Lock,
-      badge: 'Local Client',
-      badgeColor: 'text-vault-purple-light bg-vault-purple/10 border-vault-purple/30',
-      dataPreview: 'AMOUNT: 1,500 tDUST',
-      subtitle: 'Stored solely in local browser memory. Never broadcast to RPC nodes or miners.',
-      privacyNote: 'Zero network disclosure',
+      desc: 'Formulated in client RAM. Never broadcast over network.',
+      status: 'CLIENT WITNESS',
     },
     {
-      num: '02',
-      title: 'ENCRYPT',
-      icon: Key,
-      badge: 'Salt Blinding',
-      badgeColor: 'text-cipher-teal bg-cipher-teal/10 border-cipher-teal/30',
-      dataPreview: 'SALT: 0x9f4a...2c8e',
-      subtitle: '256-bit cryptographic entropy combined with bid amount using SHA-256 trapdoor.',
-      privacyNote: 'Unbreakable preimage protection',
-    },
-    {
-      num: '03',
       title: 'COMMITMENT',
       icon: FileCode,
-      badge: 'Pedersen / Hash',
-      badgeColor: 'text-amber-400 bg-amber-500/10 border-amber-500/30',
-      dataPreview: 'HASH: 0x3e8b...1f09',
-      subtitle: 'Public commitment hash generated. Mathematically binds the bid without leaking value.',
-      privacyNote: 'Binding & hiding guarantee',
+      desc: '256-bit Pedersen hash binds valuation without exposure.',
+      status: 'SHA-256 / PEDERSEN',
     },
     {
-      num: '04',
       title: 'ZK PROOF',
       icon: Cpu,
-      badge: 'Halo2 / PLONK',
-      badgeColor: 'text-vault-purple-light bg-vault-purple/10 border-vault-purple/30',
-      dataPreview: 'PROOF: π_zk (valid >= reserve)',
-      subtitle: 'Arithmetic circuit generates zero-knowledge proof that bid meets reserve and balance rules.',
-      privacyNote: 'Computable without witness exposure',
+      desc: 'PLONK circuit proves amount >= reserve constraint.',
+      status: 'HALO2 / PLONK',
     },
     {
-      num: '05',
-      title: 'VERIFIED ✓',
+      title: 'VERIFICATION',
+      icon: Shield,
+      desc: 'Midnight node validates mathematical proof in <100ms.',
+      status: 'LEDGER CONSENSUS',
+    },
+    {
+      title: 'SEALED BID',
       icon: CheckCircle2,
-      badge: 'Midnight Preprod',
-      badgeColor: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30',
-      dataPreview: 'LEDGER: CONFIRMED ✓',
-      subtitle: 'On-chain smart contract verifies proof in <100ms. Bid placed into sealed auction vault.',
-      privacyNote: 'Consensus verified, 100% private',
+      desc: 'Bid locked into escrow pool. Losers never disclosed.',
+      status: 'CONFIRMED ✓',
     },
   ];
 
   return (
-    <section className="relative py-20 overflow-hidden">
-      {/* Subtle ambient lighting */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-vault-purple/5 rounded-full blur-3xl pointer-events-none" />
-
+    <section className="relative py-14 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Heading */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-midnight-900/90 border border-vault-purple/30 text-[11px] font-mono text-vault-purple-light">
-            <Sparkles className="w-3.5 h-3.5 text-vault-purple" />
-            <span>CRYPTOGRAPHIC INTEGRITY</span>
-          </div>
-
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight">
-            <span className="gradient-text-purple">ZERO-KNOWLEDGE VERIFICATION</span>
+        {/* Section Header */}
+        <div className="max-w-2xl mx-auto text-center mb-10 space-y-2">
+          <p className="text-[11px] font-mono tracking-wider text-vault-purple-light uppercase">
+            PROOF LIFECYCLE
+          </p>
+          <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+            ZERO-KNOWLEDGE PROOF PIPELINE
           </h2>
-
-          <p className="text-sm sm:text-base text-slate-400 leading-relaxed">
-            How Midnight verifies your bid meets all auction constraints without ever disclosing a single digit of your actual bid value to anyone.
+          <p className="text-xs sm:text-sm text-slate-400">
+            How Midnight cryptographically verifies bid validity while preserving absolute confidentiality.
           </p>
         </div>
 
-        {/* 5-Step Pipeline Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 relative">
-          {steps.map((step, idx) => {
-            const Icon = step.icon;
-            const isLast = idx === steps.length - 1;
+        {/* 5-Stage Pipeline Container */}
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-3 relative">
+          {stages.map((stage, idx) => {
+            const Icon = stage.icon;
+            const isLast = idx === stages.length - 1;
+            const isCurrentActive = isProving && activeIndex === idx;
+            const isPast = activeIndex > idx || (!isProving && idx === 4);
 
             return (
               <div key={idx} className="relative group">
-                {/* Pipeline Card */}
-                <div className="h-full vault-card p-5 flex flex-col justify-between border-white/5 group-hover:border-vault-purple/40 group-hover:shadow-vault-subtle transition-all duration-300">
+                {/* Stage Card */}
+                <div
+                  className={`h-full vault-card p-4 flex flex-col justify-between transition-all duration-200 ${
+                    isCurrentActive
+                      ? 'border-vault-purple/50 bg-vault-purple/10 shadow-sm'
+                      : isPast
+                      ? 'border-emerald-500/20 bg-white/[0.02]'
+                      : 'border-white/[0.06] bg-white/[0.01]'
+                  }`}
+                >
                   <div className="space-y-3">
-                    {/* Header: Number & Badge */}
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-mono font-bold text-slate-500 group-hover:text-vault-purple-light transition-colors">
-                        {step.num}
-                      </span>
-                      <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${step.badgeColor}`}>
-                        {step.badge}
+                    {/* Header: Status Tag & Index */}
+                    <div className="flex items-center justify-between text-[10px] font-mono">
+                      <span className="text-slate-400">0{idx + 1}</span>
+                      <span
+                        className={`px-1.5 py-0.5 rounded ${
+                          isCurrentActive
+                            ? 'bg-vault-purple/20 text-vault-purple-light border border-vault-purple/30'
+                            : isPast
+                            ? 'bg-emerald-500/10 text-emerald-400'
+                            : 'bg-white/5 text-slate-400'
+                        }`}
+                      >
+                        {stage.status}
                       </span>
                     </div>
 
-                    {/* Step Icon & Title */}
-                    <div className="flex items-center gap-2.5 pt-1">
-                      <div className="w-8 h-8 rounded-lg bg-midnight-900 border border-white/10 flex items-center justify-center text-slate-200 group-hover:text-vault-purple-light group-hover:border-vault-purple/40 transition-colors">
-                        <Icon className="w-4 h-4" />
+                    {/* Icon & Title */}
+                    <div className="flex items-center gap-2">
+                      <div
+                        className={`w-7 h-7 rounded-md flex items-center justify-center ${
+                          isCurrentActive
+                            ? 'bg-vault-purple text-white'
+                            : isPast
+                            ? 'bg-emerald-500/20 text-emerald-400'
+                            : 'bg-white/5 text-slate-400'
+                        }`}
+                      >
+                        <Icon className="w-3.5 h-3.5" />
                       </div>
-                      <h3 className="text-sm font-bold text-white tracking-wide">
-                        {step.title}
+                      <h3 className="text-xs font-semibold text-white tracking-wide">
+                        {stage.title}
                       </h3>
                     </div>
 
-                    {/* Data Preview Pill */}
-                    <div className="p-2 rounded-lg bg-midnight-950/80 border border-white/5 font-mono text-[11px] text-slate-300 truncate">
-                      {step.dataPreview}
-                    </div>
-
                     {/* Description */}
-                    <p className="text-xs text-slate-400 leading-relaxed">
-                      {step.subtitle}
+                    <p className="text-[11px] text-slate-400 leading-relaxed">
+                      {stage.desc}
                     </p>
                   </div>
 
-                  {/* Privacy Guarantee Note */}
-                  <div className="mt-4 pt-3 border-t border-white/5 flex items-center gap-1.5 text-[10px] font-mono text-emerald-400">
-                    <Shield className="w-3 h-3 flex-shrink-0" />
-                    <span>{step.privacyNote}</span>
+                  {/* Verification indicator */}
+                  <div className="mt-3 pt-2 border-t border-white/[0.06] flex items-center justify-between text-[10px] font-mono">
+                    <span className="text-slate-400">Security</span>
+                    <span className="text-slate-300 font-medium">100% Confidential</span>
                   </div>
                 </div>
 
-                {/* Animated Arrow Connector (Desktop) */}
+                {/* Arrow Connector for Desktop */}
                 {!isLast && (
-                  <div className="hidden md:flex absolute top-1/2 -right-3 -translate-y-1/2 z-10 w-6 h-6 rounded-full bg-midnight-900 border border-white/10 items-center justify-center text-slate-500 shadow-lg">
-                    <ArrowRight className="w-3 h-3 text-vault-purple-light" />
+                  <div className="hidden md:flex absolute top-1/2 -right-2 -translate-y-1/2 z-10 w-4 h-4 rounded-full bg-midnight-900 border border-white/10 items-center justify-center text-slate-500">
+                    <ArrowRight className="w-2.5 h-2.5 text-slate-400" />
                   </div>
                 )}
               </div>
             );
           })}
-        </div>
-
-        {/* Technical Callout Footer */}
-        <div className="mt-12 p-4 rounded-xl bg-midnight-900/60 border border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-400">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-cipher-teal" />
-            <span>Witness generation happens entirely client-side via Compact / WASM runtime.</span>
-          </div>
-          <span className="text-slate-500">Zero Trusted Setup required · Universal Verification</span>
         </div>
       </div>
     </section>

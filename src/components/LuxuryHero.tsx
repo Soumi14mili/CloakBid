@@ -2,16 +2,11 @@ import React, { useState } from 'react';
 import {
   Shield,
   Lock,
-  Clock,
   ArrowRight,
-  Info,
-  ChevronRight,
-  FileCheck,
-  Cpu,
-  Layers,
-  Sparkles,
   ExternalLink,
   X,
+  FileCheck,
+  CheckCircle2,
 } from 'lucide-react';
 import type { AuctionConfig, LedgerState } from '../types';
 import { useCountdown } from '../hooks/useCountdown';
@@ -43,22 +38,22 @@ export const LuxuryHero: React.FC<Props> = ({
   const countdown = useCountdown(activeLot.endTime);
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
 
-  // Time progress calculation (assuming 12 hour cycle)
+  // Time progress calculation
   const totalDuration = 12 * 3600 * 1000;
   const elapsed = Math.max(0, totalDuration - countdown.totalMs);
-  const progressPercent = Math.min(100, Math.max(5, (elapsed / totalDuration) * 100));
+  const progressPercent = Math.min(100, Math.max(8, (elapsed / totalDuration) * 100));
 
   return (
-    <section className="relative pt-12 pb-20 overflow-hidden">
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-vault-purple/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-1/3 right-1/4 w-80 h-80 bg-cipher-teal/10 rounded-full blur-3xl pointer-events-none" />
+    <section className="relative pt-8 pb-16 overflow-hidden">
+      {/* Soft ambient lighting */}
+      <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-vault-purple/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 right-1/4 w-80 h-80 bg-cipher-teal/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Curated Lot Selector Pills */}
-        <div className="flex items-center gap-2 mb-10 overflow-x-auto pb-2 scrollbar-none">
+        {/* Curated Lot Selector Bar */}
+        <div className="flex items-center gap-2 mb-8 overflow-x-auto pb-1 scrollbar-none">
           <span className="text-xs font-mono text-slate-400 uppercase tracking-wider mr-2 hidden sm:inline">
-            Active Vaults:
+            Active Auctions:
           </span>
           {lots.map(lot => {
             const isSelected = lot.id === selectedLotId;
@@ -69,124 +64,124 @@ export const LuxuryHero: React.FC<Props> = ({
                   soundFx.playClick();
                   onSelectLot(lot.id);
                 }}
-                className={`flex items-center gap-2.5 px-4 py-2 rounded-xl text-xs font-mono transition-all duration-200 whitespace-nowrap ${
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-mono transition-all whitespace-nowrap ${
                   isSelected
-                    ? 'bg-vault-purple/20 text-white border border-vault-purple/50 shadow-sm'
-                    : 'bg-midnight-900/60 text-slate-400 border border-white/5 hover:text-slate-200 hover:bg-midnight-850'
+                    ? 'bg-white/[0.08] text-white border border-white/20'
+                    : 'bg-white/[0.02] text-slate-400 border border-white/[0.06] hover:text-slate-200 hover:bg-white/[0.04]'
                 }`}
               >
-                <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-vault-purple-light animate-pulse' : 'bg-slate-600'}`} />
-                <span className="font-medium">{lot.title.split(' ')[0]}</span>
-                <span className="text-slate-400 font-sans text-[11px]">#{lot.id}</span>
+                <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-vault-purple-light' : 'bg-slate-600'}`} />
+                <span className="font-medium">{lot.title}</span>
+                <span className="text-slate-400 text-[10px]">#{lot.id}</span>
               </button>
             );
           })}
         </div>
 
-        {/* Hero Two-Column Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          {/* Left Column: Typography, Countdown, CTAs */}
-          <div className="lg:col-span-6 space-y-8 text-left">
-            {/* Status Badge */}
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-midnight-900/90 border border-vault-purple/30 backdrop-blur-md">
-              <span className="text-[11px] font-mono tracking-widest text-vault-purple-light uppercase">
+        {/* Hero Two-Column Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+          {/* Left Column: Typography, Countdown, Actions */}
+          <div className="lg:col-span-6 space-y-6 text-left">
+            {/* Status Pills */}
+            <div className="flex items-center gap-3">
+              <span className="px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/[0.08] text-[11px] font-mono tracking-wider text-slate-300 uppercase">
                 CONFIDENTIAL AUCTION
               </span>
-              <span className="w-1 h-1 rounded-full bg-slate-600" />
-              <div className="flex items-center gap-1.5 text-[11px] font-mono text-emerald-400">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-[11px] font-mono text-emerald-400">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                 <span>BIDDING OPEN</span>
-              </div>
+              </span>
             </div>
 
             {/* Main Title & Tagline */}
             <div>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1]">
-                <span className="gradient-text-purple">{activeLot.title}</span>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.15]">
+                {activeLot.title}
               </h1>
-              <p className="mt-4 text-lg sm:text-xl font-light text-slate-300 italic tracking-wide">
-                “Private bids. Verifiable outcomes.”
+              <p className="mt-2.5 text-base sm:text-lg text-slate-300 font-light">
+                Private bids. Verifiable outcomes.
               </p>
-              <p className="mt-3 text-sm text-slate-400 leading-relaxed max-w-xl">
+              <p className="mt-3 text-xs sm:text-sm text-slate-400 leading-relaxed max-w-xl">
                 {activeLot.description}
               </p>
             </div>
 
-            {/* Countdown Clock & Linear Progress Indicator */}
-            <div className="vault-card p-5 max-w-lg border-white/10">
+            {/* Countdown & Auction Progress */}
+            <div className="vault-card p-4 sm:p-5 border-white/[0.08] max-w-lg">
               <div className="flex items-end justify-between mb-3">
                 <div>
-                  <p className="text-[11px] font-mono text-slate-400 tracking-wider uppercase">
-                    TIME REMAINING
-                  </p>
-                  <div className="text-2xl sm:text-3xl font-mono font-bold text-white tracking-wider mt-0.5">
+                  <div className="text-2xl sm:text-3xl font-mono font-bold text-white tracking-wider">
                     {countdown.hours.toString().padStart(2, '0')}:
                     {countdown.minutes.toString().padStart(2, '0')}:
                     {countdown.seconds.toString().padStart(2, '0')}
                   </div>
+                  <p className="text-[10px] font-mono text-slate-400 tracking-wider uppercase mt-0.5">
+                    BIDDING REMAINING
+                  </p>
                 </div>
 
                 <div className="text-right">
-                  <p className="text-[11px] font-mono text-slate-400 tracking-wider uppercase">
-                    RESERVE PRICE
-                  </p>
-                  <p className="text-lg font-mono font-bold text-auction-gold">
+                  <p className="text-base sm:text-lg font-mono font-bold text-auction-gold">
                     {activeLot.reservePrice.toLocaleString()} tDUST
+                  </p>
+                  <p className="text-[10px] font-mono text-slate-400 tracking-wider uppercase mt-0.5">
+                    RESERVE PRICE
                   </p>
                 </div>
               </div>
 
-              {/* Progress Bar */}
+              {/* Progress Indicator */}
               <div className="w-full bg-midnight-950 rounded-full h-1.5 overflow-hidden border border-white/5">
                 <div
-                  className="h-full bg-gradient-to-r from-vault-purple via-cipher-teal to-vault-purple-light transition-all duration-1000"
+                  className="h-full bg-gradient-to-r from-vault-purple via-cipher-teal to-vault-purple-light transition-all duration-500"
                   style={{ width: `${progressPercent}%` }}
                 />
               </div>
 
-              <div className="mt-2.5 flex items-center justify-between text-[10px] font-mono text-slate-400">
-                <span>Total Bids Placed: <strong className="text-slate-200">{ledgerState.bid_count}</strong></span>
-                <span>Midnight ZK Sealed</span>
+              <div className="mt-2.5 flex items-center justify-between text-[11px] font-mono text-slate-400">
+                <span>Active Bids: <strong className="text-slate-200">{ledgerState.bid_count}</strong></span>
+                <span className="flex items-center gap-1 text-slate-300">
+                  <Shield className="w-3 h-3 text-vault-purple-light" />
+                  Dual-State Sealed
+                </span>
               </div>
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+            {/* Action CTAs */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-1">
+              {/* Primary CTA (Visually Dominant) */}
               <button
                 onClick={() => {
                   soundFx.playClick();
                   onPlaceBidClick();
                 }}
-                className="btn-vault-primary text-sm !py-3.5 !px-8 shadow-vault-glow"
+                className="btn-vault-primary !py-3 !px-7 text-sm font-semibold tracking-wide"
               >
-                <Lock className="w-4 h-4 text-white" />
+                <Lock className="w-4 h-4" />
                 <span>PLACE SEALED BID</span>
                 <ArrowRight className="w-4 h-4 ml-1" />
               </button>
 
+              {/* Secondary CTA */}
               <button
                 onClick={() => {
                   soundFx.playClick();
                   setDetailsModalOpen(true);
                 }}
-                className="btn-vault-secondary text-sm !py-3.5 !px-6"
+                className="btn-vault-secondary !py-3 !px-6 text-sm"
               >
-                <Info className="w-4 h-4 text-slate-400" />
-                <span>VIEW AUCTION DETAILS</span>
+                <span>VIEW DETAILS</span>
               </button>
             </div>
           </div>
 
-          {/* Right Column: Flagship 3D Cryptographic Vault */}
-          <div className="lg:col-span-6 flex items-center justify-center">
-            <div className="relative w-full max-w-[480px]">
-              {/* Vault Canvas Frame */}
-              <CryptographicVault3D
-                isProving={isProving}
-                bidPlaced={bidPlaced}
-                myBidAmount={myBidAmount}
-              />
-            </div>
+          {/* Right Column: Hero Visual (The Signature 3D Cloak Vault) */}
+          <div className="lg:col-span-6 flex justify-center">
+            <CryptographicVault3D
+              isProving={isProving}
+              bidPlaced={bidPlaced}
+              myBidAmount={myBidAmount}
+            />
           </div>
         </div>
       </div>
@@ -194,61 +189,60 @@ export const LuxuryHero: React.FC<Props> = ({
       {/* Lot Details Modal */}
       {detailsModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-midnight-950/80 backdrop-blur-md">
-          <div className="relative w-full max-w-xl vault-card p-6 sm:p-8 space-y-6 border-vault-purple/30 animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex items-center justify-between pb-4 border-b border-white/10">
+          <div className="relative w-full max-w-lg vault-card p-6 border-white/15 bg-midnight-950/95 space-y-5 animate-in fade-in zoom-in-95 duration-150">
+            <div className="flex items-center justify-between pb-3 border-b border-white/10">
               <div className="flex items-center gap-2">
-                <Shield className="w-5 h-5 text-vault-purple" />
-                <h3 className="font-display font-bold text-lg text-white">
-                  {activeLot.title}
+                <FileCheck className="w-4 h-4 text-vault-purple-light" />
+                <h3 className="font-semibold text-base text-white">
+                  Auction Specifications
                 </h3>
               </div>
               <button
                 onClick={() => setDetailsModalOpen(false)}
-                className="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center text-slate-400 hover:text-white"
+                className="w-7 h-7 rounded bg-white/5 hover:bg-white/10 flex items-center justify-center text-slate-400 hover:text-white"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <p className="text-sm text-slate-300 leading-relaxed">
-              {activeLot.description}
+            <div className="space-y-3 font-mono text-xs">
+              <div className="flex items-center justify-between p-2.5 rounded bg-midnight-900 border border-white/5">
+                <span className="text-slate-400">Asset Title</span>
+                <span className="text-white font-medium">{activeLot.title}</span>
+              </div>
+
+              <div className="flex items-center justify-between p-2.5 rounded bg-midnight-900 border border-white/5">
+                <span className="text-slate-400">Lot Identifier</span>
+                <span className="text-slate-300">LOT-{activeLot.id}</span>
+              </div>
+
+              <div className="flex items-center justify-between p-2.5 rounded bg-midnight-900 border border-white/5">
+                <span className="text-slate-400">Reserve Price</span>
+                <span className="text-auction-gold font-bold">{activeLot.reservePrice.toLocaleString()} tDUST</span>
+              </div>
+
+              <div className="flex items-center justify-between p-2.5 rounded bg-midnight-900 border border-white/5">
+                <span className="text-slate-400">Privacy Circuit</span>
+                <span className="text-emerald-400 flex items-center gap-1">
+                  <CheckCircle2 className="w-3 h-3" />
+                  Compact PLONK v2
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between p-2.5 rounded bg-midnight-900 border border-white/5">
+                <span className="text-slate-400">Settlement Network</span>
+                <span className="text-slate-200">Midnight Preprod Testnet</span>
+              </div>
+            </div>
+
+            <p className="text-xs text-slate-400 leading-relaxed font-sans">
+              All bids placed in this auction are cryptographically blinded with 256-bit entropy. Only the winning bid commitment is posted on-chain during settlement; losing bids remain confidential forever.
             </p>
 
-            {/* Specs Grid */}
-            <div className="grid grid-cols-2 gap-3 pt-2">
-              {activeLot.specs.map((spec, i) => (
-                <div key={i} className="p-3 rounded-xl bg-midnight-900/80 border border-white/5">
-                  <p className="text-[11px] font-mono text-slate-400">{spec.label}</p>
-                  <p className="text-sm font-mono font-semibold text-slate-200 mt-0.5">{spec.value}</p>
-                </div>
-              ))}
-            </div>
-
-            {/* Cryptographic Guarantees */}
-            <div className="p-4 rounded-xl bg-vault-purple/10 border border-vault-purple/20 space-y-2">
-              <p className="text-xs font-mono font-semibold text-vault-purple-light flex items-center gap-1.5">
-                <FileCheck className="w-4 h-4 text-vault-purple" />
-                MIDNIGHT DUAL-STATE VERIFICATION
-              </p>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                All bids are committed off-chain inside your browser using zero-knowledge witness generation. Only the commitment hash and validity proof touch the Midnight Preprod ledger.
-              </p>
-            </div>
-
-            <div className="pt-2 flex items-center justify-between">
-              <a
-                href="https://explorer.midnight.network/contract/mn1q7xk4p9dv2w5r8nj3ht6ys0cqzfa1e8mbgluiop"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs font-mono text-cipher-teal hover:underline flex items-center gap-1"
-              >
-                <span>Contract: mn1q7xk...uiop</span>
-                <ExternalLink className="w-3 h-3" />
-              </a>
-
+            <div className="pt-2 flex justify-end">
               <button
                 onClick={() => setDetailsModalOpen(false)}
-                className="btn-vault-primary text-xs !py-2 !px-5"
+                className="btn-vault-secondary text-xs !py-2 !px-4"
               >
                 Close
               </button>

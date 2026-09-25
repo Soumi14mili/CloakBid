@@ -6,72 +6,58 @@ import {
   AlertTriangle,
   Lock,
   CheckCircle2,
-  Zap,
-  Play,
   RefreshCw,
-  Sparkles,
+  Search,
 } from 'lucide-react';
 import { soundFx } from '../utils/audio';
 
 export const PrivacyAttackSimulator: React.FC = () => {
-  const [isAttacking, setIsAttacking] = useState(false);
-  const [attackCount, setAttackCount] = useState(0);
+  const [isSimulating, setIsSimulating] = useState(false);
 
-  const handleLaunchAttack = () => {
+  const handleSimulate = () => {
     soundFx.playClick();
-    setIsAttacking(true);
-    setAttackCount(prev => prev + 1);
+    setIsSimulating(true);
 
-    // Play deflection sound
     setTimeout(() => {
       soundFx.playLock();
-    }, 600);
+    }, 500);
 
     setTimeout(() => {
-      setIsAttacking(false);
-    }, 3800);
+      setIsSimulating(false);
+    }, 2800);
   };
 
   return (
-    <section className="relative py-20 overflow-hidden">
-      {/* Background glow */}
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-rose-500/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-vault-purple/10 rounded-full blur-3xl pointer-events-none" />
-
+    <section id="privacy-attack-section" className="relative py-14 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Heading */}
-        <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-midnight-900/90 border border-white/10 text-[11px] font-mono text-slate-400">
-            <Zap className="w-3.5 h-3.5 text-amber-400" />
-            <span>ADVERSARIAL SECURITY BENCHMARK</span>
-          </div>
-
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight">
-            <span className="gradient-text-purple">PRIVACY ATTACK SIMULATOR</span>
+        <div className="max-w-2xl mx-auto text-center mb-10 space-y-2">
+          <p className="text-[11px] font-mono tracking-wider text-vault-purple-light uppercase">
+            SECURITY COMPARISON
+          </p>
+          <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+            PRIVACY ATTACK SIMULATOR
           </h2>
-
-          <p className="text-sm sm:text-base text-slate-400 leading-relaxed">
-            See in real time why traditional blockchain auctions fail bidders, and how Midnight’s zero-knowledge cryptography deflects 100% of front-running attacks.
+          <p className="text-xs sm:text-sm text-slate-400">
+            Compare information exposure before and after privacy protection.
           </p>
 
-          {/* Interactive Simulation Trigger Button */}
-          <div className="pt-4">
+          {/* Trigger button */}
+          <div className="pt-3">
             <button
-              onClick={handleLaunchAttack}
-              disabled={isAttacking}
-              className={`btn-vault-primary text-xs !py-3 !px-7 font-mono font-semibold tracking-wider ${
-                isAttacking ? 'opacity-70 cursor-wait' : ''
-              }`}
+              onClick={handleSimulate}
+              disabled={isSimulating}
+              className="btn-vault-secondary text-xs !py-2.5 !px-5 font-mono"
             >
-              {isAttacking ? (
+              {isSimulating ? (
                 <span className="flex items-center gap-2">
-                  <RefreshCw className="w-4 h-4 animate-spin text-rose-300" />
-                  <span>SIMULATING MEMPOOL SNIPING ATTACK...</span>
+                  <RefreshCw className="w-3.5 h-3.5 animate-spin text-vault-purple-light" />
+                  <span>SIMULATING OBSERVER INSPECTION...</span>
                 </span>
               ) : (
                 <span className="flex items-center gap-2">
-                  <Play className="w-4 h-4 text-amber-400" />
-                  <span>SIMULATE MEMPOOL ATTACK (TEST DEFENSE)</span>
+                  <Search className="w-3.5 h-3.5 text-slate-300" />
+                  <span>TEST OBSERVER INSPECTION</span>
                 </span>
               )}
             </button>
@@ -79,160 +65,118 @@ export const PrivacyAttackSimulator: React.FC = () => {
         </div>
 
         {/* Side-by-Side Comparison Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
-          {/* ── LEFT: TRADITIONAL AUCTION (Vulnerable) ─────────────── */}
-          <div className="vault-card p-6 sm:p-8 border-rose-500/25 bg-gradient-to-b from-rose-950/20 via-midnight-950 to-midnight-900 flex flex-col justify-between relative overflow-hidden">
-            {/* Header */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+          {/* ── LEFT: PUBLIC AUCTION (Exposed) ────────────────────────── */}
+          <div className="vault-card p-6 border-rose-500/20 bg-midnight-950/90 flex flex-col justify-between">
             <div>
-              <div className="flex items-center justify-between pb-4 border-b border-rose-500/20">
+              {/* Header */}
+              <div className="flex items-center justify-between pb-3 border-b border-rose-500/20">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-9 h-9 rounded-xl bg-rose-500/20 border border-rose-500/40 flex items-center justify-center text-rose-400">
-                    <ShieldAlert className="w-5 h-5" />
+                  <div className="w-7 h-7 rounded-md bg-rose-500/15 border border-rose-500/30 flex items-center justify-center text-rose-400">
+                    <ShieldAlert className="w-3.5 h-3.5" />
                   </div>
                   <div>
-                    <h3 className="font-mono font-bold text-sm text-white tracking-wider">
-                      TRADITIONAL AUCTION
+                    <h3 className="font-mono font-semibold text-xs text-white tracking-wider">
+                      PUBLIC AUCTION
                     </h3>
-                    <p className="text-[10px] font-mono text-rose-400">
-                      ETHEREUM / PUBLIC EVM CHAINS
-                    </p>
+                    <p className="text-[10px] font-mono text-slate-400">Public EVM / Transparent Mempool</p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-rose-500/15 border border-rose-500/30 text-rose-400 text-xs font-mono">
-                  <Eye className={`w-3.5 h-3.5 ${isAttacking ? 'animate-bounce text-rose-300' : ''}`} />
-                  <span>MEMPOOL EXPOSED</span>
+                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-mono font-semibold">
+                  <Eye className="w-3.5 h-3.5" />
+                  <span>BIDS EXPOSED</span>
                 </div>
               </div>
 
-              {/* Bid List with Cleartext Amounts */}
-              <div className="my-6 space-y-3 font-mono text-xs">
-                <div
-                  className={`flex items-center justify-between p-3.5 rounded-xl border transition-all duration-300 ${
-                    isAttacking
-                      ? 'bg-rose-950/50 border-rose-500/60 shadow-[0_0_15px_rgba(244,63,94,0.2)]'
-                      : 'bg-midnight-950/80 border-white/5'
-                  }`}
-                >
-                  <span className="text-slate-300 font-semibold">Alice</span>
-                  <span className="text-rose-300 font-bold text-sm">1,500 tDUST</span>
+              {/* Bid Table */}
+              <div className="mt-4 space-y-2 font-mono text-xs">
+                <div className="flex items-center justify-between p-2.5 rounded bg-white/[0.02] border border-rose-500/10">
+                  <span className="text-slate-300">Alice</span>
+                  <span className="text-rose-400 font-bold">1,500</span>
                 </div>
+                <div className="flex items-center justify-between p-2.5 rounded bg-white/[0.02] border border-rose-500/10">
+                  <span className="text-slate-300">Bob</span>
+                  <span className="text-rose-400 font-bold">1,800</span>
+                </div>
+                <div className="flex items-center justify-between p-2.5 rounded bg-white/[0.02] border border-rose-500/10">
+                  <span className="text-slate-300">Charlie</span>
+                  <span className="text-rose-400 font-bold">2,100</span>
+                </div>
+              </div>
 
-                <div
-                  className={`flex items-center justify-between p-3.5 rounded-xl border transition-all duration-300 ${
-                    isAttacking
-                      ? 'bg-rose-950/50 border-rose-500/60 shadow-[0_0_15px_rgba(244,63,94,0.2)]'
-                      : 'bg-midnight-950/80 border-white/5'
-                  }`}
-                >
-                  <span className="text-slate-300 font-semibold">Bob</span>
-                  <span className="text-rose-300 font-bold text-sm">1,800 tDUST</span>
+              {/* Observer Representation */}
+              <div className="mt-4 p-3 rounded bg-rose-950/20 border border-rose-500/20 text-xs text-slate-300 space-y-1.5">
+                <div className="flex items-center gap-1.5 text-rose-400 font-mono text-[11px] font-semibold">
+                  <AlertTriangle className="w-3.5 h-3.5" />
+                  <span>Network Observer / MEV Bot</span>
                 </div>
-
-                <div
-                  className={`flex items-center justify-between p-3.5 rounded-xl border transition-all duration-300 ${
-                    isAttacking
-                      ? 'bg-rose-950/50 border-rose-500/60 shadow-[0_0_15px_rgba(244,63,94,0.2)]'
-                      : 'bg-midnight-950/80 border-white/5'
-                  }`}
-                >
-                  <span className="text-slate-300 font-semibold">Charlie</span>
-                  <span className="text-rose-300 font-bold text-sm">2,100 tDUST</span>
-                </div>
+                <p className="text-[11px] text-slate-400 leading-relaxed font-sans">
+                  Observer reads all pending bids directly from the public mempool. Bots can front-run by outbidding Charlie by fractional increments before block inclusion.
+                </p>
               </div>
             </div>
 
-            {/* Attack Vulnerability Alerts */}
-            <div className="space-y-2 pt-4 border-t border-rose-500/20">
-              <div className="flex items-center gap-2 text-xs font-mono text-rose-400">
-                <AlertTriangle className="w-4 h-4 flex-shrink-0" />
-                <span>⚠ BID AMOUNTS PUBLICLY VISIBLE</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs font-mono text-rose-400">
-                <AlertTriangle className="w-4 h-4 flex-shrink-0" />
-                <span>⚠ FRONT-RUNNING & MEV SNIPING OPPORTUNITY</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs font-mono text-rose-400">
-                <AlertTriangle className="w-4 h-4 flex-shrink-0" />
-                <span>⚠ INFORMATION LEAKAGE BEFORE SETTLEMENT</span>
-              </div>
+            <div className="mt-4 pt-3 border-t border-rose-500/15 flex items-center justify-between text-[11px] font-mono text-rose-400">
+              <span>Mempool Status</span>
+              <span>100% Unshielded Leakage</span>
             </div>
           </div>
 
-          {/* ── RIGHT: CLOAKBID (Midnight ZK Shielded) ─────────────── */}
-          <div className="vault-card p-6 sm:p-8 border-vault-purple/40 bg-gradient-to-b from-vault-purple/15 via-midnight-950 to-midnight-900 flex flex-col justify-between relative overflow-hidden shadow-2xl">
-            {/* Animated Shield Ripple on Attack */}
-            {isAttacking && (
-              <div className="absolute inset-0 bg-vault-purple/10 backdrop-blur-xs border-2 border-vault-purple/60 rounded-2xl animate-pulse pointer-events-none flex items-center justify-center">
-                <div className="px-4 py-2 rounded-xl bg-midnight-900/90 border border-vault-purple-light text-vault-purple-light font-mono text-xs font-bold shadow-vault-glow flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                  <span>ATTACK BLOCKED · ZERO-KNOWLEDGE SHIELD ACTIVE</span>
-                </div>
-              </div>
-            )}
-
-            {/* Header */}
+          {/* ── RIGHT: CLOAKBID (Private) ──────────────────────────────── */}
+          <div className="vault-card p-6 border-emerald-500/20 bg-midnight-950/90 flex flex-col justify-between">
             <div>
-              <div className="flex items-center justify-between pb-4 border-b border-vault-purple/30">
+              {/* Header */}
+              <div className="flex items-center justify-between pb-3 border-b border-emerald-500/20">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-9 h-9 rounded-xl bg-vault-purple/20 border border-vault-purple/40 flex items-center justify-center text-vault-purple-light">
-                    <ShieldCheck className="w-5 h-5" />
+                  <div className="w-7 h-7 rounded-md bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                    <ShieldCheck className="w-3.5 h-3.5" />
                   </div>
                   <div>
-                    <h3 className="font-mono font-bold text-sm text-white tracking-wider">
+                    <h3 className="font-mono font-semibold text-xs text-white tracking-wider">
                       CLOAKBID
                     </h3>
-                    <p className="text-[10px] font-mono text-vault-purple-light">
-                      MIDNIGHT DUAL-STATE NETWORK
-                    </p>
+                    <p className="text-[10px] font-mono text-slate-400">Midnight Dual-State Zero-Knowledge</p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-mono">
+                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono font-semibold">
                   <Lock className="w-3.5 h-3.5" />
-                  <span>100% SHIELDED</span>
+                  <span>BIDS PRIVATE</span>
                 </div>
               </div>
 
-              {/* Bid List with Cryptographically Hidden Amounts */}
-              <div className="my-6 space-y-3 font-mono text-xs">
-                <div className="flex items-center justify-between p-3.5 rounded-xl bg-midnight-950/90 border border-vault-purple/20">
-                  <span className="text-slate-300 font-semibold">Alice</span>
-                  <span className="text-slate-500 font-bold text-sm tracking-widest">
-                    ███████████
-                  </span>
+              {/* Bid Table */}
+              <div className="mt-4 space-y-2 font-mono text-xs">
+                <div className="flex items-center justify-between p-2.5 rounded bg-white/[0.02] border border-white/[0.05]">
+                  <span className="text-slate-300">Alice</span>
+                  <span className="text-slate-400 font-mono tracking-widest">█████</span>
                 </div>
+                <div className="flex items-center justify-between p-2.5 rounded bg-white/[0.02] border border-white/[0.05]">
+                  <span className="text-slate-300">Bob</span>
+                  <span className="text-slate-400 font-mono tracking-widest">█████</span>
+                </div>
+                <div className="flex items-center justify-between p-2.5 rounded bg-white/[0.02] border border-white/[0.05]">
+                  <span className="text-slate-300">Charlie</span>
+                  <span className="text-slate-400 font-mono tracking-widest">█████</span>
+                </div>
+              </div>
 
-                <div className="flex items-center justify-between p-3.5 rounded-xl bg-midnight-950/90 border border-vault-purple/20">
-                  <span className="text-slate-300 font-semibold">Bob</span>
-                  <span className="text-slate-500 font-bold text-sm tracking-widest">
-                    ███████████
-                  </span>
+              {/* Observer Representation */}
+              <div className="mt-4 p-3 rounded bg-white/[0.02] border border-white/[0.06] text-xs text-slate-300 space-y-1.5">
+                <div className="flex items-center gap-1.5 text-emerald-400 font-mono text-[11px] font-semibold">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <span>Observer Query Response</span>
                 </div>
-
-                <div className="flex items-center justify-between p-3.5 rounded-xl bg-midnight-950/90 border border-vault-purple/20">
-                  <span className="text-slate-300 font-semibold">Charlie</span>
-                  <span className="text-slate-500 font-bold text-sm tracking-widest">
-                    ███████████
-                  </span>
-                </div>
+                <p className="text-[11px] text-slate-400 leading-relaxed font-sans">
+                  Observer attempts inspection but receives only opaque 256-bit commitment hashes and verified zero-knowledge proofs. Zero valuation data is exposed.
+                </p>
               </div>
             </div>
 
-            {/* Defense Guarantees */}
-            <div className="space-y-2 pt-4 border-t border-vault-purple/30">
-              <div className="flex items-center gap-2 text-xs font-mono text-emerald-400">
-                <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
-                <span>✓ BID HIDDEN IN CLIENT WITNESS</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs font-mono text-emerald-400">
-                <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
-                <span>✓ PRIVATE STATE UNREACHABLE BY ATTACKERS</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs font-mono text-emerald-400">
-                <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
-                <span>✓ ZK PROOF VERIFIED WITHOUT DATA DISCLOSURE</span>
-              </div>
+            <div className="mt-4 pt-3 border-t border-emerald-500/15 flex items-center justify-between text-[11px] font-mono text-emerald-400">
+              <span>Enclave Status</span>
+              <span>Protected by Compact Circuit</span>
             </div>
           </div>
         </div>

@@ -8,6 +8,7 @@ import { DualStateLedger } from './components/DualStateLedger';
 import { SealedBidCapsules } from './components/SealedBidCapsules';
 import { PrivacyAttackSimulator } from './components/PrivacyAttackSimulator';
 import { AuctionCompletionReveal } from './components/AuctionCompletionReveal';
+import { TransactionDetails } from './components/TransactionDetails';
 import { PrivacyStatusWidget } from './components/PrivacyStatusWidget';
 import { useLaceWallet } from './hooks/useLaceWallet';
 import { useCloakBid } from './hooks/useCloakBid';
@@ -15,7 +16,6 @@ import { soundFx } from './utils/audio';
 import cloakbidLogo from './assets/images/cloakbid_logo.svg';
 import {
   Shield,
-  Lock,
   ExternalLink,
   Plus,
   X,
@@ -85,10 +85,10 @@ export const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-midnight-950 text-slate-100 relative font-sans selection:bg-vault-purple/30 selection:text-white">
-      {/* Subtle Cryptographic Network Canvas Background */}
+      {/* Subtle Coordinate Grid Canvas Background */}
       <CryptographicBackground />
 
-      {/* Luxury Minimal Top Navigation */}
+      {/* Global Minimal Navigation */}
       <TopNavbar
         wallet={wallet}
         onConnect={connect}
@@ -99,9 +99,9 @@ export const App: React.FC = () => {
         userBidCount={myBidsCount}
       />
 
-      {/* Main Content Sections */}
+      {/* Main Visual Hierarchy Flow */}
       <main className="relative z-10">
-        {/* 1. Hero & Signature 3D Cryptographic Vault */}
+        {/* 1. Hero Overview (Auction Name, Status, Time Remaining, CTAs, 3D Cloak Vault) */}
         <LuxuryHero
           lots={lots}
           selectedLotId={selectedLotId}
@@ -127,12 +127,12 @@ export const App: React.FC = () => {
           />
         </div>
 
-        {/* 3. ZK Proof Visualization Pipeline */}
+        {/* 3. ZK Proof Generation Pipeline */}
         <div id="zk-pipeline-section">
-          <ZKProofPipeline />
+          <ZKProofPipeline circuitStep={circuitStep} />
         </div>
 
-        {/* 4. Private State vs Public State Dual Ledger */}
+        {/* 4. Privacy Guarantee (Dual-State Ledger: Private State vs Public State) */}
         <div id="dual-state-section">
           <DualStateLedger
             ledgerState={ledgerState}
@@ -143,7 +143,7 @@ export const App: React.FC = () => {
           />
         </div>
 
-        {/* 5. Sealed Bidder 3D Capsules */}
+        {/* 5. Sealed Bid Participants */}
         <div id="sealed-bids-section">
           <SealedBidCapsules
             commitments={commitments}
@@ -157,7 +157,7 @@ export const App: React.FC = () => {
           <PrivacyAttackSimulator />
         </div>
 
-        {/* 7. Auction Completion & Cinematic Reveal */}
+        {/* 7. Auction Completion & Settlement Reveal */}
         <div id="settlement-section">
           <AuctionCompletionReveal
             ledgerState={ledgerState}
@@ -168,42 +168,51 @@ export const App: React.FC = () => {
             onResetAuction={() => initializeAuction(auctionConfig.reservePrice)}
           />
         </div>
+
+        {/* 8. Technical Details Section (Expandable) */}
+        <TransactionDetails
+          contractAddress="mn1q7xk4p9dv2w5r8nj3ht6ys0cqzfa1e8mbgluiop"
+          txHash="0x8f2a1b9c3e4d5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a"
+          proofHash="0x3fa8c91d2e4b6a8c0e2b4d6f8a0c2e4b6d8f0a2b4d6f8a0c2e4b6d8f0a2b4d6f"
+        />
       </main>
 
-      {/* Persistent Privacy Status Widget */}
+      {/* Persistent Privacy Status Monitor Widget */}
       <PrivacyStatusWidget
         hasBid={hasBidPlaced}
         isFinalized={ledgerState.finalized}
       />
 
-      {/* Minimal Luxury Footer */}
-      <footer className="relative z-10 border-t border-white/5 bg-midnight-950/90 py-12 backdrop-blur-md">
+      {/* Minimal Professional Footer */}
+      <footer className="relative z-10 border-t border-white/[0.08] bg-midnight-950/80 py-10 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             {/* Logo & Network Tag */}
-            <div className="flex items-center gap-3.5">
-              <img
-                src={cloakbidLogo}
-                alt="CloakBid"
-                className="w-7 h-7 object-contain"
-              />
+            <div className="flex items-center gap-3">
+              <div className="w-7 h-7 rounded-lg bg-midnight-900 border border-white/10 flex items-center justify-center">
+                <img
+                  src={cloakbidLogo}
+                  alt="CloakBid"
+                  className="w-4 h-4 object-contain"
+                />
+              </div>
               <div>
-                <span className="font-display font-bold text-sm tracking-wider text-white">
+                <span className="font-semibold text-sm tracking-tight text-white">
                   CLOAKBID
                 </span>
-                <p className="text-[11px] font-mono text-slate-400">
-                  Confidential Sealed-Bid Auctions on Midnight Preprod
+                <p className="text-[11px] text-slate-400 font-normal">
+                  Private Auctions Infrastructure on Midnight Preprod
                 </p>
               </div>
             </div>
 
-            {/* Contract & Explorer Links */}
+            {/* Contract & Social Links */}
             <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-slate-400">
               <a
                 href="https://explorer.midnight.network/contract/mn1q7xk4p9dv2w5r8nj3ht6ys0cqzfa1e8mbgluiop"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-vault-purple-light transition-colors flex items-center gap-1.5"
+                className="hover:text-white transition-colors flex items-center gap-1.5"
               >
                 <span>Contract: mn1q7xk...uiop</span>
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -213,7 +222,7 @@ export const App: React.FC = () => {
                 href="https://x.com/xCloakBid"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-vault-purple-light transition-colors flex items-center gap-1"
+                className="hover:text-white transition-colors flex items-center gap-1"
               >
                 <span>𝕏 @xCloakBid</span>
               </a>
@@ -222,17 +231,17 @@ export const App: React.FC = () => {
                 href="https://github.com/Soumi14mili/CloakBid"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-vault-purple-light transition-colors flex items-center gap-1"
+                className="hover:text-white transition-colors flex items-center gap-1"
               >
                 <span>GitHub</span>
               </a>
             </div>
           </div>
 
-          <div className="mt-8 pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] font-mono text-slate-500">
-            <p>© 2026 CloakBid Protocol. Built for Midnight Network Hackathon.</p>
-            <p className="flex items-center gap-1">
-              <Shield className="w-3.5 h-3.5 text-vault-purple" />
+          <div className="mt-6 pt-5 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-500">
+            <p>© 2026 CloakBid Protocol. Built for Midnight Crescent Challenge — Level 4.</p>
+            <p className="flex items-center gap-1.5 font-mono">
+              <Shield className="w-3.5 h-3.5 text-vault-purple-light" />
               <span>Zero-Knowledge Proofs Powered by Compact & Halo2</span>
             </p>
           </div>
@@ -242,36 +251,36 @@ export const App: React.FC = () => {
       {/* Create Auction Modal */}
       {createModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-midnight-950/80 backdrop-blur-md">
-          <div className="relative w-full max-w-lg vault-card p-6 sm:p-8 space-y-6 border-vault-purple/30 animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex items-center justify-between pb-4 border-b border-white/10">
+          <div className="relative w-full max-w-lg vault-card p-6 space-y-5 border-white/15 bg-midnight-950/95 animate-in fade-in zoom-in-95 duration-150">
+            <div className="flex items-center justify-between pb-3 border-b border-white/10">
               <div className="flex items-center gap-2">
-                <Plus className="w-5 h-5 text-vault-purple" />
-                <h3 className="font-display font-bold text-lg text-white">
+                <Plus className="w-4 h-4 text-vault-purple-light" />
+                <h3 className="font-semibold text-base text-white">
                   Create Confidential Auction
                 </h3>
               </div>
               <button
                 onClick={() => setCreateModalOpen(false)}
-                className="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center text-slate-400 hover:text-white"
+                className="w-7 h-7 rounded bg-white/5 hover:bg-white/10 flex items-center justify-center text-slate-400 hover:text-white"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {createdSuccess ? (
-              <div className="py-8 text-center space-y-3">
-                <CheckCircle2 className="w-12 h-12 text-emerald-400 mx-auto animate-bounce" />
-                <h4 className="text-base font-bold text-white font-mono">
-                  AUCTION VAULT CREATED ON PREPROD
+              <div className="py-6 text-center space-y-2">
+                <CheckCircle2 className="w-10 h-10 text-emerald-400 mx-auto" />
+                <h4 className="text-sm font-semibold text-white">
+                  Auction Vault Deployed to Preprod
                 </h4>
-                <p className="text-xs text-slate-300 font-mono">
+                <p className="text-xs text-slate-400">
                   Smart contract initialized with zero-knowledge verification parameters.
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleCreateAuction} className="space-y-4 font-mono text-xs">
+              <form onSubmit={handleCreateAuction} className="space-y-4 text-xs">
                 <div className="space-y-1.5">
-                  <label className="text-slate-300">Auction Asset Title</label>
+                  <label className="text-slate-300 font-medium">Auction Asset Title</label>
                   <input
                     type="text"
                     required
@@ -283,7 +292,7 @@ export const App: React.FC = () => {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-slate-300">Reserve Price (tDUST)</label>
+                  <label className="text-slate-300 font-medium">Reserve Price (tDUST)</label>
                   <input
                     type="number"
                     required
@@ -294,22 +303,22 @@ export const App: React.FC = () => {
                   />
                 </div>
 
-                <div className="p-3 rounded-xl bg-midnight-950/80 border border-white/5 text-[11px] text-slate-400 space-y-1">
-                  <p className="text-slate-300 font-semibold">Privacy Mode: Shielded Sealed-Bid</p>
-                  <p>All bids submitted to this auction will be encrypted client-side and verified via ZK-SNARKs.</p>
+                <div className="p-3 rounded-lg bg-white/[0.02] border border-white/[0.06] text-[11px] text-slate-400 space-y-1">
+                  <p className="text-slate-200 font-medium">Privacy Architecture: Shielded Sealed-Bid</p>
+                  <p>All bids submitted will be encrypted client-side and verified via Compact ZK circuits.</p>
                 </div>
 
-                <div className="pt-2 flex items-center justify-end gap-3">
+                <div className="pt-2 flex items-center justify-end gap-2.5">
                   <button
                     type="button"
                     onClick={() => setCreateModalOpen(false)}
-                    className="btn-vault-secondary text-xs !py-2.5 !px-5"
+                    className="btn-vault-secondary text-xs !py-2 !px-4"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="btn-vault-primary text-xs !py-2.5 !px-6"
+                    className="btn-vault-primary text-xs !py-2 !px-5"
                   >
                     Deploy Auction Vault
                   </button>

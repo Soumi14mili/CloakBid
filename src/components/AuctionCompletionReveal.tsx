@@ -3,12 +3,10 @@ import {
   Trophy,
   CheckCircle2,
   Lock,
-  Sparkles,
   ShieldCheck,
-  Award,
   RefreshCw,
-  ExternalLink,
   ChevronRight,
+  Check,
 } from 'lucide-react';
 import type { LedgerState, WinnerData, BidCommitment } from '../types';
 import { soundFx } from '../utils/audio';
@@ -57,36 +55,43 @@ export const AuctionCompletionReveal: React.FC<Props> = ({
   const isFinalized = ledgerState.finalized && winner !== null;
   const isClosed = !ledgerState.auction_open;
 
-  return (
-    <section className="relative py-20 overflow-hidden">
-      {/* Background glow burst when winner is revealed */}
-      {isFinalized && (
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-vault-purple/15 rounded-full blur-3xl pointer-events-none animate-pulse" />
-      )}
+  const winnerTag = winner
+    ? winner.address.length > 8
+      ? `BIDDER #${winner.address.slice(0, 4).toUpperCase()}`
+      : `BIDDER #${winner.address}`
+    : 'BIDDER #A7F3';
 
+  const verificationChecklist = [
+    'Bid validity',
+    'Balance requirement',
+    'Auction rules',
+    'ZK verification',
+    'Private losing bids',
+    'Settlement authorization',
+  ];
+
+  return (
+    <section id="settlement-section" className="relative py-14">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Heading */}
-        <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-midnight-900/90 border border-white/10 text-[11px] font-mono text-slate-400">
-            <Trophy className="w-3.5 h-3.5 text-vault-purple-light" />
-            <span>SETTLEMENT LIFECYCLE</span>
-          </div>
-
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight">
-            <span className="gradient-text-purple">AUCTION COMPLETION & REVEAL</span>
+        <div className="max-w-2xl mx-auto text-center mb-10 space-y-2">
+          <p className="text-[11px] font-mono tracking-wider text-vault-purple-light uppercase">
+            SETTLEMENT ENGINE
+          </p>
+          <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+            AUCTION SETTLEMENT & VERIFICATION
           </h2>
-
-          <p className="text-sm sm:text-base text-slate-400 leading-relaxed">
-            When the round closes, zero-knowledge verification authorizes private settlement without ever disclosing losing bids.
+          <p className="text-xs sm:text-sm text-slate-400">
+            Cryptographic outcome verification on the Midnight Network.
           </p>
 
-          {/* Interactive Simulation Bar for Hackathon Judges */}
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+          {/* Administrative Round Actions */}
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-2.5">
             {ledgerState.auction_open ? (
               <button
                 onClick={handleClose}
                 disabled={processing}
-                className="btn-vault-secondary text-xs !py-2.5 !px-5 font-mono"
+                className="btn-vault-secondary text-xs !py-2 !px-4 font-mono"
               >
                 {processing ? 'Closing...' : 'Close Auction Round'}
               </button>
@@ -94,146 +99,145 @@ export const AuctionCompletionReveal: React.FC<Props> = ({
               <button
                 onClick={handleFinalize}
                 disabled={processing}
-                className="btn-vault-primary text-xs !py-2.5 !px-6 font-mono font-bold shadow-vault-glow"
+                className="btn-vault-primary text-xs !py-2 !px-5 font-mono"
               >
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>{processing ? 'Verifying Proof...' : 'Finalize & Reveal Winner'}</span>
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>{processing ? 'Verifying Result...' : 'Finalize & Reveal Winner'}</span>
               </button>
             ) : (
               <button
                 onClick={handleReset}
                 disabled={processing}
-                className="btn-vault-secondary text-xs !py-2.5 !px-5 font-mono text-slate-400 hover:text-white"
+                className="btn-vault-secondary text-xs !py-2 !px-4 font-mono text-slate-400 hover:text-white"
               >
                 <RefreshCw className="w-3.5 h-3.5" />
-                <span>Reset Demo Auction</span>
+                <span>Reset Demo Round</span>
               </button>
             )}
           </div>
         </div>
 
-        {/* Cinematic Flow Container */}
+        {/* State 1: Before Finalization (Auction Open or Closed Pending Finalization) */}
         {!isFinalized ? (
-          /* Pre-Finalization Status Card */
-          <div className="max-w-2xl mx-auto vault-card p-8 border-white/10 text-center space-y-5">
-            <div className="w-14 h-14 rounded-2xl bg-midnight-900 border border-white/10 mx-auto flex items-center justify-center text-slate-400">
-              <Lock className="w-7 h-7 text-vault-purple" />
+          <div className="max-w-2xl mx-auto vault-card p-6 border-white/[0.08] text-center space-y-4">
+            <div className="w-10 h-10 rounded-lg bg-midnight-900 border border-white/10 mx-auto flex items-center justify-center text-slate-400">
+              <Lock className="w-5 h-5 text-vault-purple-light" />
             </div>
 
             <div className="space-y-1">
-              <h3 className="font-display font-bold text-xl text-white">
-                {ledgerState.auction_open ? 'AUCTION ROUND IN PROGRESS' : 'AUCTION CLOSED · READY FOR FINALIZATION'}
-              </h3>
-              <p className="text-xs font-mono text-slate-400">
+              <div className="flex items-center justify-center gap-2 font-mono text-xs text-slate-400">
+                <span className={`px-2 py-0.5 rounded ${isClosed ? 'bg-white/10 text-white' : 'bg-white/5 text-slate-400'}`}>
+                  AUCTION CLOSED
+                </span>
+                <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
+                <span className="px-2 py-0.5 rounded bg-white/5 text-slate-400">
+                  VERIFYING RESULT
+                </span>
+                <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
+                <span className="px-2 py-0.5 rounded bg-white/5 text-slate-400">
+                  ZK PROOF VERIFIED
+                </span>
+              </div>
+
+              <h3 className="font-semibold text-base text-white pt-2">
                 {ledgerState.auction_open
-                  ? 'Collecting zero-knowledge sealed bids. All values remain opaque.'
-                  : 'Bidding window closed. Ready to run SNARK verification and determine highest valid bidder.'}
+                  ? 'Bidding Phase Active'
+                  : 'Bidding Closed · Ready for Settlement'}
+              </h3>
+              <p className="text-xs text-slate-400 max-w-md mx-auto">
+                {ledgerState.auction_open
+                  ? 'Sealed bids are actively being collected. All values remain strictly confidential in client memory.'
+                  : 'Auction window closed. Click "Finalize & Reveal Winner" to run the ZK verification circuit.'}
               </p>
             </div>
 
-            <div className="flex items-center justify-center gap-6 pt-2 text-xs font-mono text-slate-400">
-              <span>Status: <strong className="text-white">{ledgerState.auction_open ? 'OPEN' : 'CLOSED'}</strong></span>
-              <span>Bids in Vault: <strong className="text-vault-purple-light">{commitments.length || 5}</strong></span>
-              <span>Consensus: <strong className="text-emerald-400">Midnight Preprod</strong></span>
+            <div className="flex items-center justify-center gap-5 pt-1 text-xs font-mono text-slate-400">
+              <span>Status: <strong className="text-slate-200">{ledgerState.auction_open ? 'OPEN' : 'CLOSED'}</strong></span>
+              <span>Committed Bids: <strong className="text-white">{commitments.length || 4}</strong></span>
+              <span>Network: <strong className="text-emerald-400">Midnight Preprod</strong></span>
             </div>
           </div>
         ) : (
-          /* Cinematic Winner Reveal State */
-          <div className="max-w-3xl mx-auto space-y-8 animate-in fade-in zoom-in-95 duration-500">
+          /* State 2: Finalized Result (Section 12 Spec) */
+          <div className="max-w-2xl mx-auto space-y-6 animate-in fade-in duration-200">
             {/* Step Pipeline Status */}
-            <div className="flex items-center justify-center gap-3 font-mono text-xs text-slate-400">
-              <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10">AUCTION CLOSED</span>
-              <ChevronRight className="w-4 h-4 text-slate-600" />
-              <span className="px-3 py-1 rounded-full bg-vault-purple/20 text-vault-purple-light border border-vault-purple/40">
-                VERIFYING ZK PROOF
+            <div className="flex items-center justify-center gap-2 font-mono text-xs text-slate-400">
+              <span className="px-2.5 py-0.5 rounded bg-white/5 text-slate-400">
+                AUCTION CLOSED
               </span>
-              <ChevronRight className="w-4 h-4 text-slate-600" />
-              <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-bold flex items-center gap-1.5">
+              <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
+              <span className="px-2.5 py-0.5 rounded bg-white/5 text-slate-400">
+                VERIFYING RESULT
+              </span>
+              <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
+              <span className="px-2.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-semibold flex items-center gap-1">
                 <CheckCircle2 className="w-3.5 h-3.5" />
                 AUCTION VERIFIED
               </span>
             </div>
 
-            {/* Elevated Illuminated Winner Card */}
-            <div className="relative vault-card p-8 sm:p-10 border-vault-purple bg-gradient-to-b from-midnight-950 via-vault-purple/15 to-midnight-900 shadow-vault-glow-lg rounded-3xl transform -translate-y-2 transition-all">
-              {/* Top Accent Crown */}
-              <div className="absolute -top-5 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-gradient-to-r from-vault-purple to-cipher-teal text-white font-mono text-xs font-bold tracking-wider shadow-lg flex items-center gap-1.5">
-                <Trophy className="w-4 h-4" />
-                <span>WINNER VERIFIED</span>
-              </div>
-
-              {/* Winner Identity */}
-              <div className="text-center pt-2 space-y-2">
-                <p className="text-xs font-mono text-slate-400 uppercase tracking-widest">
-                  HIGHEST VALID BIDDER
-                </p>
-                <h3 className="font-display font-extrabold text-3xl sm:text-4xl text-white tracking-wide">
-                  BIDDER #{winner.commitmentHash.slice(0, 4).toUpperCase() || 'A7F3'}
-                </h3>
-                <p className="text-xs font-mono text-slate-400">
-                  Address: <span className="text-slate-300">{winner.address}</span>
-                </p>
-              </div>
-
-              {/* Bid Comparison: Sealed Amounts Guarantee */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-8 font-mono text-xs">
-                {/* Winning Bid */}
-                <div className="p-4 rounded-xl bg-midnight-950/90 border border-vault-purple/30 space-y-1">
-                  <p className="text-slate-400 text-[11px]">Winning Bid</p>
-                  <p className="text-sm font-bold text-vault-purple-light tracking-widest">
-                    ███████████
-                  </p>
-                  <p className="text-[10px] text-slate-400">Settled securely via private contract</p>
+            {/* Elegant Winner Card */}
+            <div className="vault-card p-6 border-white/10 bg-midnight-950/90 space-y-5">
+              {/* Winner Header */}
+              <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-vault-purple/15 border border-vault-purple/30 flex items-center justify-center text-vault-purple-light">
+                    <Trophy className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-mono tracking-wider text-slate-400 uppercase">
+                      SETTLEMENT OUTCOME
+                    </span>
+                    <h3 className="font-semibold text-sm text-white">
+                      WINNER: <span className="font-mono text-emerald-400">{winnerTag}</span>
+                    </h3>
+                  </div>
                 </div>
 
-                {/* Losing Bids */}
-                <div className="p-4 rounded-xl bg-midnight-950/90 border border-white/5 space-y-1">
-                  <p className="text-slate-400 text-[11px]">Losing Bids (All Competitors)</p>
-                  <p className="text-sm font-bold text-slate-400 tracking-widest">
-                    ███████████
-                  </p>
-                  <p className="text-[10px] text-slate-400">Permanently concealed on-chain</p>
+                <span className="px-2.5 py-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-xs font-semibold">
+                  VERIFIED
+                </span>
+              </div>
+
+              {/* Winning Bid & Losing Bids Display (Masked) */}
+              <div className="space-y-2.5 font-mono text-xs">
+                <div className="flex items-center justify-between p-2.5 rounded bg-white/[0.02] border border-white/[0.06]">
+                  <span className="text-slate-300">Winning bid</span>
+                  <span className="text-slate-400 tracking-widest text-[11px]">
+                    ████████
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between p-2.5 rounded bg-white/[0.02] border border-white/[0.06]">
+                  <span className="text-slate-400">Losing bid #1</span>
+                  <span className="text-slate-500 tracking-widest text-[11px]">
+                    ████████
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between p-2.5 rounded bg-white/[0.02] border border-white/[0.06]">
+                  <span className="text-slate-400">Losing bid #2</span>
+                  <span className="text-slate-500 tracking-widest text-[11px]">
+                    ████████
+                  </span>
                 </div>
               </div>
 
               {/* Verification Checklist */}
-              <div className="space-y-2.5 pt-4 border-t border-white/10 font-mono text-xs">
-                <div className="flex items-center gap-2.5 text-emerald-400">
-                  <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
-                  <span>✓ Valid bid above reserve threshold</span>
+              <div className="pt-3 border-t border-white/[0.08] space-y-2">
+                <p className="text-[11px] font-mono text-slate-400 tracking-wide uppercase">
+                  VERIFICATION CHECKLIST
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                  {verificationChecklist.map((item, idx) => (
+                    <div key={idx} className="flex items-center gap-2 text-slate-300">
+                      <div className="w-4 h-4 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 flex-shrink-0">
+                        <Check className="w-2.5 h-2.5" />
+                      </div>
+                      <span>{item}</span>
+                    </div>
+                  ))}
                 </div>
-                <div className="flex items-center gap-2.5 text-emerald-400">
-                  <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
-                  <span>✓ Sufficient balance verified by circuit</span>
-                </div>
-                <div className="flex items-center gap-2.5 text-emerald-400">
-                  <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
-                  <span>✓ Halo2 / PLONK ZK proof verified on Midnight</span>
-                </div>
-                <div className="flex items-center gap-2.5 text-emerald-400">
-                  <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
-                  <span>✓ Zero losing bid values revealed</span>
-                </div>
-                <div className="flex items-center gap-2.5 text-emerald-400">
-                  <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
-                  <span>✓ Cryptographic settlement authorized</span>
-                </div>
-              </div>
-
-              {/* Settlement Footer */}
-              <div className="mt-8 pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-slate-400">
-                <span className="truncate max-w-[280px]">
-                  Proof Hash: <strong className="text-slate-300">{winner.proofHash.slice(0, 16)}...</strong>
-                </span>
-                <a
-                  href="https://explorer.midnight.network/contract/mn1q7xk4p9dv2w5r8nj3ht6ys0cqzfa1e8mbgluiop"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-cipher-teal hover:underline flex items-center gap-1"
-                >
-                  <span>Verify Settlement On Explorer</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
               </div>
             </div>
           </div>

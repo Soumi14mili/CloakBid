@@ -12,7 +12,6 @@ import {
   Droplets,
   Menu,
   X,
-  Lock,
 } from 'lucide-react';
 import type { WalletState } from '../types';
 import { soundFx } from '../utils/audio';
@@ -72,42 +71,41 @@ export const TopNavbar: React.FC<Props> = ({
   ];
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-2xl bg-midnight-950/85 border-b border-white/5 transition-all duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-        {/* Brand Logo */}
+    <header className="sticky top-0 z-50 backdrop-blur-xl bg-midnight-950/80 border-b border-white/[0.08] transition-all">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        {/* Left: Brand & Tagline */}
         <div
           onClick={() => {
             soundFx.playClick();
             setActiveTab('auctions');
           }}
-          className="flex items-center gap-3.5 cursor-pointer group"
+          className="flex items-center gap-3 cursor-pointer group select-none"
         >
-          <div className="relative w-10 h-10 rounded-xl bg-midnight-900 border border-vault-purple/30 flex items-center justify-center overflow-hidden transition-all duration-300 group-hover:border-vault-purple/60 group-hover:shadow-vault-glow">
+          <div className="w-8 h-8 rounded-lg bg-midnight-900 border border-white/10 flex items-center justify-center overflow-hidden transition-colors group-hover:border-vault-purple/40">
             <img
               src={cloakbidLogo}
-              alt="CloakBid Logo"
-              className="w-7 h-7 object-contain relative z-10 transition-transform duration-300 group-hover:scale-105"
+              alt="CloakBid"
+              className="w-5 h-5 object-contain"
             />
-            <div className="absolute inset-0 bg-gradient-to-tr from-vault-purple/20 via-transparent to-cipher-teal/10 opacity-60 group-hover:opacity-100 transition-opacity" />
           </div>
 
           <div>
-            <div className="flex items-center gap-2">
-              <span className="font-display font-bold text-lg tracking-wider text-white group-hover:text-vault-purple-light transition-colors">
+            <div className="flex items-center gap-1.5">
+              <span className="font-semibold text-sm tracking-tight text-white group-hover:text-vault-purple-light transition-colors">
                 CLOAKBID
               </span>
-              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-vault-purple/15 text-vault-purple-light border border-vault-purple/30">
+              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-vault-purple/15 text-vault-purple-light border border-vault-purple/20">
                 ZK
               </span>
             </div>
-            <p className="text-[10.5px] font-sans text-slate-400 tracking-normal">
-              Confidential Sealed-Bid Auctions
+            <p className="text-[11px] text-slate-400 font-normal">
+              Private Auctions Infrastructure
             </p>
           </div>
         </div>
 
-        {/* Center Navigation Links (Desktop) */}
-        <nav className="hidden md:flex items-center gap-1 bg-midnight-900/60 p-1.5 rounded-full border border-white/5">
+        {/* Center: Global Navigation Links (Desktop) */}
+        <nav className="hidden md:flex items-center gap-1">
           {navItems.map(item => {
             const isActive = activeTab === item.id;
             return (
@@ -117,10 +115,10 @@ export const TopNavbar: React.FC<Props> = ({
                   soundFx.playClick();
                   setActiveTab(item.id);
                 }}
-                className={`relative px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-200 flex items-center gap-1.5 ${
+                className={`relative px-3.5 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5 ${
                   isActive
-                    ? 'text-white bg-vault-purple/20 border border-vault-purple/40 shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                    ? 'text-white bg-white/[0.08] border border-white/10'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.03]'
                 }`}
               >
                 {item.label}
@@ -134,97 +132,103 @@ export const TopNavbar: React.FC<Props> = ({
           })}
         </nav>
 
-        {/* Right Side: Network Badge, Audio Toggle & Wallet Button */}
-        <div className="flex items-center gap-3">
-          {/* Midnight Preprod Status Badge */}
-          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-midnight-900/80 border border-white/5 text-[11px] font-mono text-slate-300">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+        {/* Right: Network Status & Connect Wallet */}
+        <div className="flex items-center gap-2.5">
+          {/* Status Indicator */}
+          <div className="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-md bg-white/[0.03] border border-white/[0.08] text-[11px] font-mono text-slate-300">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
             <span>Midnight Preprod</span>
           </div>
 
-          {/* Sound Toggle Button */}
+          {/* Audio toggle */}
           <button
             onClick={toggleSound}
             title={isMuted ? 'Unmute Audio FX' : 'Mute Audio FX'}
-            className="w-9 h-9 rounded-xl bg-midnight-900/80 border border-white/5 flex items-center justify-center text-slate-400 hover:text-slate-200 hover:border-white/10 transition-colors"
+            className="w-8 h-8 rounded-lg bg-white/[0.03] border border-white/[0.08] flex items-center justify-center text-slate-400 hover:text-white hover:border-white/20 transition-colors"
           >
-            {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4 text-vault-purple-light" />}
+            {isMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
           </button>
 
-          {/* Wallet Connector */}
+          {/* Wallet Action Button / State */}
           {!wallet.connected ? (
             <button
               onClick={handleConnect}
               disabled={connecting}
-              className="btn-vault-primary text-xs !py-2.5 !px-4.5"
+              className="btn-vault-primary !py-1.5 !px-4 text-xs font-medium"
             >
               <Wallet className="w-3.5 h-3.5" />
-              {connecting ? 'Connecting Lace...' : 'Connect Wallet'}
+              <span>{connecting ? 'Connecting...' : 'Connect Wallet'}</span>
             </button>
           ) : (
             <div className="relative">
               <button
-                onClick={() => {
-                  soundFx.playClick();
-                  setShowWalletMenu(!showWalletMenu);
-                }}
-                className="flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-midnight-900/90 border border-vault-purple/30 hover:border-vault-purple/60 transition-colors text-xs font-mono"
+                onClick={() => setShowWalletMenu(!showWalletMenu)}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-midnight-900 border border-white/10 hover:border-vault-purple/40 text-xs font-mono text-slate-200 transition-colors"
               >
-                <div className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34D399]" />
-                <span className="text-slate-300 font-semibold">{wallet.address}</span>
-                <span className="text-vault-purple-light border-l border-white/10 pl-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                <span>
+                  {wallet.address.slice(0, 7)}...{wallet.address.slice(-4)}
+                </span>
+                <span className="hidden lg:inline text-slate-400 font-sans text-[11px] border-l border-white/10 pl-2 ml-1">
                   {wallet.balance}
                 </span>
-                <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+                <ChevronDown className="w-3.5 h-3.5 text-slate-400 ml-0.5" />
               </button>
 
               {/* Wallet Dropdown Menu */}
               {showWalletMenu && (
-                <div className="absolute right-0 mt-2 w-64 rounded-xl bg-midnight-900/95 backdrop-blur-2xl border border-white/10 shadow-2xl p-3 space-y-2 z-50 text-xs">
-                  <div className="px-2 py-1.5 border-b border-white/5">
-                    <p className="text-[10px] font-mono text-slate-400">CONNECTED WALLET (LACE)</p>
-                    <p className="font-mono text-slate-200 mt-0.5 truncate">{wallet.address}</p>
-                    <p className="text-vault-purple-light font-mono font-semibold mt-1">
-                      {wallet.balance}
-                    </p>
+                <div className="absolute right-0 mt-2 w-64 vault-card p-3 border-white/15 bg-midnight-950/95 shadow-xl text-xs font-mono z-50 animate-in fade-in zoom-in-95 duration-150">
+                  <div className="pb-2.5 mb-2 border-b border-white/10 space-y-1">
+                    <p className="text-[10px] text-slate-400 font-sans">Connected Lace Account</p>
+                    <div className="flex items-center justify-between text-slate-200">
+                      <span className="truncate">{wallet.address}</span>
+                      <button
+                        onClick={handleCopy}
+                        title="Copy Address"
+                        className="p-1 hover:text-white text-slate-400 rounded"
+                      >
+                        {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                      </button>
+                    </div>
                   </div>
 
-                  <button
-                    onClick={onClaimFaucet}
-                    className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-slate-200 hover:bg-vault-purple/15 hover:text-vault-purple-light transition-colors text-left font-mono"
-                  >
-                    <Droplets className="w-3.5 h-3.5 text-cipher-teal" />
-                    <span>Claim +1,000 tDUST Faucet</span>
-                  </button>
+                  <div className="py-1 px-2 rounded bg-midnight-900/80 mb-2 flex items-center justify-between text-slate-300">
+                    <span className="text-[11px] font-sans text-slate-400">Available Balance:</span>
+                    <span className="font-bold text-white">{wallet.balance}</span>
+                  </div>
 
-                  <button
-                    onClick={handleCopy}
-                    className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-slate-200 hover:bg-white/5 transition-colors text-left font-mono"
-                  >
-                    {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-slate-400" />}
-                    <span>{copied ? 'Address Copied' : 'Copy Full Address'}</span>
-                  </button>
-
-                  <a
-                    href="https://explorer.midnight.network/contract/mn1q7xk4p9dv2w5r8nj3ht6ys0cqzfa1e8mbgluiop"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-slate-200 hover:bg-white/5 transition-colors text-left font-mono"
-                  >
-                    <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
-                    <span>View Contract on Explorer</span>
-                  </a>
-
-                  <div className="pt-1 border-t border-white/5">
+                  <div className="space-y-1">
                     <button
                       onClick={() => {
+                        soundFx.playClick();
+                        onClaimFaucet();
+                      }}
+                      className="w-full flex items-center gap-2 px-2 py-1.5 rounded text-left hover:bg-white/5 text-slate-300 hover:text-white transition-colors"
+                    >
+                      <Droplets className="w-3.5 h-3.5 text-cipher-teal" />
+                      <span>Claim 2,500 tDUST</span>
+                    </button>
+
+                    <a
+                      href={`https://explorer.midnight.network/address/${wallet.address}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full flex items-center gap-2 px-2 py-1.5 rounded text-left hover:bg-white/5 text-slate-300 hover:text-white transition-colors"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+                      <span>View on Explorer</span>
+                    </a>
+
+                    <button
+                      onClick={() => {
+                        soundFx.playClick();
                         setShowWalletMenu(false);
                         onDisconnect();
                       }}
-                      className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-rose-400 hover:bg-rose-500/10 transition-colors text-left font-mono"
+                      className="w-full flex items-center gap-2 px-2 py-1.5 rounded text-left hover:bg-rose-500/10 text-rose-400 transition-colors"
                     >
                       <LogOut className="w-3.5 h-3.5" />
-                      <span>Disconnect</span>
+                      <span>Disconnect Wallet</span>
                     </button>
                   </div>
                 </div>
@@ -232,27 +236,32 @@ export const TopNavbar: React.FC<Props> = ({
             </div>
           )}
 
-          {/* Mobile Hamburger Toggle */}
+          {/* Mobile menu trigger */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden w-9 h-9 rounded-xl bg-midnight-900 border border-white/10 flex items-center justify-center text-slate-400"
+            className="md:hidden w-8 h-8 rounded-lg bg-white/[0.03] border border-white/[0.08] flex items-center justify-center text-slate-400 hover:text-white"
           >
             {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile Navigation Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-white/5 bg-midnight-950/95 px-4 py-3 space-y-1">
+        <div className="md:hidden border-t border-white/[0.08] bg-midnight-950/95 p-4 space-y-2">
           {navItems.map(item => (
             <button
               key={item.id}
               onClick={() => {
+                soundFx.playClick();
                 setActiveTab(item.id);
                 setMobileMenuOpen(false);
               }}
-              className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-white/5"
+              className={`w-full px-3 py-2 rounded-lg text-left text-xs font-medium flex items-center justify-between ${
+                activeTab === item.id
+                  ? 'bg-white/10 text-white'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
             >
               <span>{item.label}</span>
               {typeof item.count === 'number' && item.count > 0 && (
@@ -262,9 +271,10 @@ export const TopNavbar: React.FC<Props> = ({
               )}
             </button>
           ))}
-          <div className="pt-2 border-t border-white/5 flex items-center justify-between text-xs font-mono text-slate-400 px-3">
-            <span className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <div className="pt-2 border-t border-white/5 flex items-center justify-between text-xs font-mono text-slate-400">
+            <span>Network:</span>
+            <span className="text-emerald-400 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
               Midnight Preprod
             </span>
           </div>
