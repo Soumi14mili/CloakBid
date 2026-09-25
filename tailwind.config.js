@@ -7,6 +7,22 @@ export default {
   theme: {
     extend: {
       colors: {
+        // CloakBid Design System
+        cb: {
+          base:     '#08090C',
+          sub:      '#0D0F13',
+          surface:  '#12151B',
+          elevated: '#181C23',
+          border:   'rgba(255,255,255,0.05)',
+          accent:   '#635BFF',
+          success:  '#2ECC8A',
+          warning:  '#E7A93B',
+          error:    '#E05252',
+          t1:       '#F5F7FA',
+          t2:       '#969DAA',
+          t3:       '#646B78',
+        },
+        // Legacy aliases for backward compatibility
         midnight: {
           950: '#07090E',
           900: '#0B0F19',
@@ -16,74 +32,66 @@ export default {
           600: '#334155',
           500: '#64748B',
         },
-        vault: {
-          purple: '#7C3AED',
-          'purple-light': '#9353D3',
-          'purple-dark': '#6D28D9',
-          'purple-deep': '#4C1D95',
-          indigo: '#4F46E5',
-        },
-        cipher: {
-          teal: '#0891B2',
-          'teal-light': '#06B6D4',
-          'teal-dark': '#0E7490',
-          electric: '#2563EB',
-          green: '#10B981',
-        },
-        auction: {
-          gold: '#D97706',
-          'gold-light': '#F59E0B',
-          'gold-dark': '#B45309',
-          amber: '#F59E0B',
-        },
-        verified: {
-          emerald: '#10B981',
-          'emerald-light': '#34D399',
-          'emerald-dark': '#059669',
-        },
       },
       fontFamily: {
-        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-        mono: ['JetBrains Mono', 'SF Mono', 'Cascadia Code', 'Fira Code', 'monospace'],
+        sans:    ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        mono:    ['JetBrains Mono', 'SF Mono', 'Fira Code', 'Cascadia Code', 'monospace'],
         display: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
       },
+      fontSize: {
+        '2xs': ['0.625rem', { lineHeight: '0.875rem' }],
+      },
       boxShadow: {
-        'vault-subtle': '0 10px 30px -10px rgba(139, 92, 246, 0.15)',
-        'vault-glow': '0 0 25px -5px rgba(139, 92, 246, 0.35)',
-        'vault-glow-lg': '0 0 50px -10px rgba(139, 92, 246, 0.45)',
-        'cipher-glow': '0 0 25px -5px rgba(6, 182, 212, 0.35)',
-        'emerald-glow': '0 0 25px -5px rgba(16, 185, 129, 0.4)',
-        'card-depth': '0 20px 40px -15px rgba(0, 0, 0, 0.7), inset 0 1px 0 0 rgba(255, 255, 255, 0.05)',
-        'vault-inset': 'inset 0 2px 8px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(139, 92, 246, 0.15)',
+        'card':      '0 1px 3px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05)',
+        'card-md':   '0 4px 16px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05)',
+        'card-lg':   '0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06)',
+        'accent-sm': '0 0 16px rgba(99,91,255,0.2)',
+        'accent':    '0 0 32px rgba(99,91,255,0.25)',
       },
       keyframes: {
-        'float-slow': {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-8px)' },
+        'fade-up': {
+          '0%':   { opacity: '0', transform: 'translateY(16px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
         },
-        'pulse-subtle': {
-          '0%, 100%': { opacity: '0.4' },
-          '50%': { opacity: '0.8' },
+        'fade-in': {
+          '0%':   { opacity: '0' },
+          '100%': { opacity: '1' },
         },
-        'ring-rotate': {
-          '0%': { transform: 'rotate(0deg)' },
-          '100%': { transform: 'rotate(360deg)' },
-        },
-        'ring-rotate-reverse': {
-          '0%': { transform: 'rotate(360deg)' },
-          '100%': { transform: 'rotate(0deg)' },
-        },
-        'shimmer-slow': {
-          '0%': { backgroundPosition: '-200% 0' },
+        'shimmer': {
+          '0%':   { backgroundPosition: '-200% 0' },
           '100%': { backgroundPosition: '200% 0' },
+        },
+        'pulse-slow': {
+          '0%, 100%': { opacity: '0.4' },
+          '50%':      { opacity: '0.8' },
+        },
+        'flow-right': {
+          '0%':   { transform: 'translateX(-4px)', opacity: '0' },
+          '50%':  { opacity: '1' },
+          '100%': { transform: 'translateX(4px)', opacity: '0' },
+        },
+        'draw-line': {
+          '0%':   { strokeDashoffset: '100' },
+          '100%': { strokeDashoffset: '0' },
+        },
+        'spin-slow': {
+          '0%':   { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
         },
       },
       animation: {
-        'float-slow': 'float-slow 6s ease-in-out infinite',
-        'pulse-subtle': 'pulse-subtle 4s ease-in-out infinite',
-        'ring-rotate': 'ring-rotate 20s linear infinite',
-        'ring-rotate-reverse': 'ring-rotate-reverse 26s linear infinite',
-        'shimmer-slow': 'shimmer-slow 8s linear infinite',
+        'fade-up':    'fade-up 0.5s ease-out forwards',
+        'fade-in':    'fade-in 0.4s ease-out forwards',
+        'shimmer':    'shimmer 3s linear infinite',
+        'pulse-slow': 'pulse-slow 3s ease-in-out infinite',
+        'flow-right': 'flow-right 1.5s ease-in-out infinite',
+        'spin-slow':  'spin-slow 20s linear infinite',
+      },
+      transitionTimingFunction: {
+        'smooth': 'cubic-bezier(0.4, 0, 0.2, 1)',
+      },
+      maxWidth: {
+        'content': '1200px',
       },
     },
   },
