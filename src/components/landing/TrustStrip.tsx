@@ -25,7 +25,7 @@ const TRUST_ITEMS: TrustItem[] = [
   },
 ];
 
-const CONTRACT_ADDRESS = '51d23a07...8b15';
+const CONTRACT_ADDRESS = '0x51d23a07...8b15';
 
 export const TrustStrip: React.FC = () => {
   return (
@@ -72,7 +72,7 @@ export const TrustStrip: React.FC = () => {
           </span>
           <span
             className="mono text-[11px] text-cb-t3 whitespace-nowrap"
-            title="Contract address: 51d23a07...8b15"
+            title="Contract address: 0x51d23a07...8b15"
           >
             {CONTRACT_ADDRESS}
           </span>

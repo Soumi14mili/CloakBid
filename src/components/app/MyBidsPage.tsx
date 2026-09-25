@@ -173,7 +173,7 @@ export const MyBidsPage: React.FC<Props> = ({
                     <span>Gas: 0.002 tDUST</span>
                   </div>
                   <div className="flex items-center gap-1 font-mono text-[11px]">
-                    <span>Contract: 51d23a...8b15</span>
+                    <span>Contract: 0x51d23a...8b15</span>
                   </div>
                 </div>
               </div>

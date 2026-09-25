@@ -79,7 +79,7 @@ export const AnalyticsPage: React.FC<Props> = ({ commitments, ledgerState }) => 
 
   const networkMetrics: Array<{ label: string; value: string }> = [
     { label: 'Network', value: 'Midnight Preview' },
-    { label: 'Contract', value: '51d23a07...8b15' },
+    { label: 'Contract', value: '0x51d23a07...8b15' },
     { label: 'Block Height', value: '~42,891' },
     { label: 'Tx Finality', value: '~6 seconds' },
     { label: 'Protocol', value: 'Compact v0.16' },

@@ -40,12 +40,12 @@ export const Footer: React.FC = () => {
           {/* Protocol Links & Contract Info */}
           <div className="flex flex-wrap items-center gap-6 text-xs font-mono text-slate-400">
             <a
-              href="https://explorer.midnight.network/contract/51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15"
+              href="https://explorer.midnight.network/contract/0x51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-white transition-colors flex items-center gap-1.5 p-2 rounded-lg bg-white/[0.02] border border-white/[0.06] hover:border-white/15"
             >
-              <span>Contract: 51d23a0...8b15</span>
+              <span>Contract: 0x51d23a...8b15</span>
               <ExternalLink className="w-3.5 h-3.5 text-purple-400" />
             </a>
 

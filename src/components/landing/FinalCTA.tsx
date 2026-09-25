@@ -56,7 +56,7 @@ export const FinalCTA: React.FC<Props> = ({ onEnterApp }) => {
         {/* Deployment note */}
         <p className="mt-8 text-cb-t3 text-[13px]">
           Deployed on Midnight Preview ·{' '}
-          <span className="mono">51d23a07...8b15</span>
+          <span className="mono">0x51d23a07...8b15</span>
         </p>
       </div>
     </section>

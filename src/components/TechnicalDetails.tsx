@@ -22,7 +22,7 @@ interface Props {
 }
 
 export const TechnicalDetails: React.FC<Props> = ({
-  contractAddress = '51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15',
+  contractAddress = '0x51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15',
   txHash = '0x8f2a1b9c3e4d5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a',
   proofHash = '0x3fa8c91d2e4b6a8c0e2b4d6f8a0c2e4b6d8f0a2b4d6f8a0c2e4b6d8f0a2b4d6f',
 }) => {

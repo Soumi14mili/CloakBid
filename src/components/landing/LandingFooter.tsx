@@ -173,7 +173,7 @@ export const LandingFooter: React.FC<Props> = ({ onEnterApp }) => {
             © 2026 CloakBid Protocol. Built for Midnight Crescent Challenge — Level 4.
           </p>
           <p className="mono text-[11px] text-cb-t3">
-            Contract: 51d23a07...8b15 · Midnight Preview
+            Contract: 0x51d23a07...8b15 · Midnight Preview
           </p>
         </div>
       </div>

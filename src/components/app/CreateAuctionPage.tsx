@@ -288,7 +288,7 @@ export const CreateAuctionPage: React.FC = () => {
                   </p>
                 </div>
                 <div className="p-3 bg-cb-elevated rounded-xl border border-[rgba(255,255,255,0.06)] font-mono text-xs text-cb-t2 max-w-md mx-auto break-all">
-                  Contract: 51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15
+                  Contract: 0x51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15
                 </div>
               </div>
             )}

@@ -11,7 +11,7 @@
 
 **The world's premier zero-knowledge sealed-bid auction protocol on the Midnight Network.**
 
-[🚀 Live Demo](https://soumi14mili.github.io/CloakBid/) · [📹 Demo Video](https://github.com/Soumi14mili/CloakBid/raw/main/CloakBid_MVP_Demo.webm) · [📜 Preprod Contract](https://explorer.midnight.network/contract/51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15) · [🐦 Follow @xCloakBid](https://x.com/xCloakBid) · [📖 Architecture Docs](./docs/ARCHITECTURE.md)
+[🚀 Live Demo](https://soumi14mili.github.io/CloakBid/) · [📹 Demo Video](https://github.com/Soumi14mili/CloakBid/raw/main/CloakBid_MVP_Demo.webm) · [📜 Preprod Contract](https://explorer.midnight.network/contract/0x51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15) · [🐦 Follow @xCloakBid](https://x.com/xCloakBid) · [📖 Architecture Docs](./docs/ARCHITECTURE.md)
 
 <br />
 
@@ -29,7 +29,7 @@
 |---|---|---|
 | **1. Public GitHub Repository** | ✅ **PASSED** | [github.com/Soumi14mili/CloakBid](https://github.com/Soumi14mili/CloakBid) (Public repo with comprehensive documentation) |
 | **2. Live Preprod Demo Link** | ✅ **PASSED** | [soumi14mili.github.io/CloakBid](https://soumi14mili.github.io/CloakBid/) (Interactive Live MVP on Midnight Preprod) |
-| **3. Verifiable Contract Address** | ✅ **PASSED** | `51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15` ([View on Midnight Explorer](https://explorer.midnight.network/contract/51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15)) |
+| **3. Verifiable Contract Address** | ✅ **PASSED** | `0x51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15` ([View on Midnight Explorer](https://explorer.midnight.network/contract/0x51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15)) |
 | **4. CI/CD Pipeline & Passing Badge** | ✅ **PASSED** | [.github/workflows/ci.yml](.github/workflows/ci.yml) (Automated TypeScript check, Vite build, & GitHub Pages deploy) |
 | **5. Product X (Twitter) Profile** | ✅ **PASSED** | [@xCloakBid](https://x.com/xCloakBid) (Linked in badges, header, footer, and documentation) |
 | **6. Demo Video of the MVP** | ✅ **PASSED** | [Watch / Download CloakBid_MVP_Demo.webm](https://github.com/Soumi14mili/CloakBid/raw/main/CloakBid_MVP_Demo.webm) (Full 1080p recorded walkthrough) |
@@ -108,7 +108,7 @@ CloakBid combines **institutional fintech design standards (Bloomberg Terminal /
 7. **Settlement & Resolution Protocol (`AuctionResult.tsx`):**
    - Winner reveal module featuring provably highest bidder verification, clearing settlement display, and a 6-point cryptographic verification checklist.
 8. **Technical Specifications & Developer Drawer (`TechnicalDetails.tsx`):**
-   - Collapsible developer and auditor drawer with verified contract address (`51d23a...8b15`), verification keys, settlement transactions, and Compact circuit logic.
+   - Collapsible developer and auditor drawer with verified contract address (`0x51d23a...8b15`), verification keys, settlement transactions, and Compact circuit logic.
 9. **Confidential Portfolio & Bids Management (`MyBidsView.tsx`):**
    - Institutional portfolio view allowing participants to track active sealed bids, inspect private witnesses, verify cryptographic receipts, and monitor won settlements.
 10. **5-Step Auction Deployment Wizard (`CreateAuctionView.tsx`):**
@@ -298,7 +298,7 @@ CloakBid/
 
 - **Product Profile on X:** [@xCloakBid](https://x.com/xCloakBid)
 - **Developer GitHub:** [@Soumi14mili](https://github.com/Soumi14mili)
-- **Preprod Contract:** [`51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15`](https://explorer.midnight.network/contract/51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15)
+- **Preprod Contract:** [`0x51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15`](https://explorer.midnight.network/contract/0x51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15)
 - **Connected Wallet:** `mn_addr_preview19fx47fv4pkvsdrl9wlzw5u4tjcd5kuaf4u3yjqvfrc4xs4lz4dns0wg4jd`
 - **Midnight Network Docs:** [docs.midnight.network](https://docs.midnight.network)
 

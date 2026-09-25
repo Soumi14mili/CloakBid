@@ -126,7 +126,7 @@ export const AppShell: React.FC<Props> = ({
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
             <span>CloakBid Protocol — Zero-Knowledge Sealed-Bid Infrastructure</span>
-            <span className="font-mono">Midnight Preview Contract: 51d23a...8b15</span>
+            <span className="font-mono">Midnight Preview Contract: 0x51d23a...8b15</span>
           </div>
         </div>
       </footer>

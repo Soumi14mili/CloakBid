@@ -205,7 +205,7 @@ export const AuctionDetailView: React.FC<Props> = ({
           {activeTab === 2 && (
             <div className="card-sub p-5 rounded-xl">
               {[
-                { label: 'Contract Address', value: '51d23a07...8b15', mono: true },
+                { label: 'Contract Address', value: '0x51d23a07...8b15', mono: true },
                 { label: 'Network', value: 'Midnight Preview' },
                 {
                   label: 'Auction Open',
