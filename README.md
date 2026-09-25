@@ -64,6 +64,10 @@ On traditional public blockchains (Ethereum, Solana, Polygon):
 
 CloakBid decouples private data from public consensus through Midnight's dual-state execution model:
 
+<p align="center">
+  <img src="./docs/images/cloakbid_protocol_architecture.png" alt="CloakBid Protocol Architecture — Sealed Bidding to Verifiable Settlement" width="100%" />
+</p>
+
 ```
 ┌──────────────────────────────────────┐       ┌──────────────────────────────────────┐
 │       PRIVATE STATE (Client RAM)     │       │       PUBLIC STATE (Midnight Ledger)  │

@@ -28,6 +28,10 @@ CloakBid leverages the Midnight Network's unique **dual-state architecture** to 
 
 ## ZK Circuit Execution Flow
 
+<p align="center">
+  <img src="./images/cloakbid_protocol_architecture.png" alt="CloakBid ZK Circuit Execution Pipeline" width="100%" />
+</p>
+
 ### 1. Bid Commitment (`commit_bid()`)
 
 ```
