@@ -13,6 +13,12 @@
 
 [🚀 Live Demo](https://soumi14mili.github.io/CloakBid/) · [📹 Demo Video](https://github.com/Soumi14mili/CloakBid/raw/main/CloakBid_MVP_Demo.webm) · [📜 Preprod Contract](https://explorer.midnight.network/contract/51d23a07eec0e7d2c94aceeb613e414900dcfb5a6ad18f3459875f733f6d8b15) · [🐦 Follow @xCloakBid](https://x.com/xCloakBid) · [📖 Architecture Docs](./docs/ARCHITECTURE.md)
 
+<br />
+
+<p align="center">
+  <img src="./docs/images/cloak_vault_banner.png" alt="CloakBid — The Cloak Vault Zero-Knowledge Execution Environment" width="100%" />
+</p>
+
 </div>
 
 ---

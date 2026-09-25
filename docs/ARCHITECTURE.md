@@ -2,6 +2,10 @@
 
 ## Overview
 
+<p align="center">
+  <img src="./images/cloak_vault_banner.png" alt="Cloak Vault Architecture" width="100%" />
+</p>
+
 CloakBid leverages the Midnight Network's unique **dual-state architecture** to achieve cryptographically guaranteed bid confidentiality in a public blockchain environment.
 
 ```
