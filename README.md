@@ -27,7 +27,7 @@
 | **4. CI/CD Pipeline & Passing Badge** | ✅ **PASSED** | [.github/workflows/ci.yml](.github/workflows/ci.yml) (Automated TypeScript check, Vite build, & GitHub Pages deploy) |
 | **5. Product X (Twitter) Profile** | ✅ **PASSED** | [@xCloakBid](https://x.com/xCloakBid) (Linked in badges, header, footer, and documentation) |
 | **6. Demo Video of the MVP** | ✅ **PASSED** | [Watch / Download CloakBid_MVP_Demo.webm](https://github.com/Soumi14mili/CloakBid/raw/main/CloakBid_MVP_Demo.webm) (Full 1080p recorded walkthrough) |
-| **7. Minimum 15 Meaningful Commits** | ✅ **PASSED (40+/15)** | 40+ structured conventional commits pushed to `main` branch |
+| **7. Minimum 15 Meaningful Commits** | ✅ **PASSED (43/15)** | 43 structured conventional commits pushed to `main` branch |
 | **8. Comprehensive Documentation** | ✅ **PASSED** | Full architecture guide, setup instructions, usage manual, and formal privacy model |
 
 ---
@@ -76,34 +76,35 @@ The arithmetic circuit enforces $\text{bid\_amount} \ge \text{reserve\_price}$ i
 
 ---
 
-## 🎨 Luxury Cryptographic Vault Visual Identity
+## 🎨 Production Fintech Visual Identity & Interface Architecture
 
-CloakBid rejects generic crypto dashboard tropes and chaotic neon in favor of an **ultra-premium, refined aesthetic**:
+CloakBid combines **institutional fintech design standards (Bloomberg Terminal / Stripe / Mercury)** with **cutting-edge zero-knowledge cryptography**:
 
-1. **Flagship 3D Cryptographic Bid Vault (`CryptographicVault3D.tsx`):**
-   - High-performance 60fps HTML5 Canvas 3D projection engine with mouse-follow parallax.
-   - Rotating faceted translucent glass cube with embedded cryptographic glyphs (`λ`, `⊕`, `⨂`, `⟁`, `𝒵𝒦`, `0x`).
-   - Three concentric 3D gyro rings rotating at differential velocities.
-   - Glowing inner private bid core displaying `BID: █████████` · `PRIVATE`.
-   - Dual particle system: incoming purple encrypted data particles and outgoing cyan/emerald ZK proof sparks.
-2. **Private Bidding Panel & Circular Reactor (`PrivateBiddingPanel.tsx`):**
-   - 5-stage animated visual reactor: `ENTER BID` ➔ `ENCRYPTING` ➔ `GENERATING ZK PROOF` ➔ `VERIFYING` ➔ `SEALED BID ACCEPTED ✓`.
-   - 256-bit cryptographic salt generator with reveal toggle and reserve threshold validation.
-3. **Zero-Knowledge Verification Pipeline (`ZKProofPipeline.tsx`):**
-   - 5-stage intuitive verification walkthrough: `PRIVATE BID` ➔ `ENCRYPT` ➔ `COMMITMENT` ➔ `ZK PROOF` ➔ `VERIFIED ✓`.
-4. **Dual-State Ledger (`DualStateLedger.tsx`):**
-   - Split-screen comparison contrasting `🔒 PRIVATE STATE` (opaque vault) with `◇ PUBLIC STATE` (auditable consensus) connected by a central `ZERO-KNOWLEDGE PROOF` bridge.
-5. **Sealed Bidder 3D Capsules (`SealedBidCapsules.tsx`):**
-   - Floating glass capsules for active bidders with `🔒 SEALED` & `✓ VALID` badges. Losing bid amounts are permanently masked (`███████████`).
-6. **Privacy Attack Simulator (`PrivacyAttackSimulator.tsx`):**
-   - Live exploit demonstration comparing traditional public auctions (MEV leak warnings) against CloakBid (particle attacks deflected by Midnight's cryptographic shield).
-7. **Cinematic Settlement & Reveal (`AuctionCompletionReveal.tsx`):**
-   - Stage flow: `AUCTION CLOSED` ➔ `VERIFYING ZK PROOF` ➔ `✓ AUCTION VERIFIED`.
-   - Elevated winner capsule, 5-point cryptographic verification checklist, and interactive admin round controls.
-8. **Persistent Privacy Status Widget (`PrivacyStatusWidget.tsx`):**
-   - Compact bottom-right monitor validating that bid amount and balance remain strictly `PRIVATE`.
-9. **Subtle Cryptographic Network (`CryptographicBackground.tsx`):**
-   - Canvas-rendered mathematical lattice with node-and-vector links and gentle luminescence packets.
+1. **Dashboard Overview (`DashboardOverview.tsx`):**
+   - High-level KPIs: Active Auctions, Total Sealed Bids, Value Under Private Protection, and Settled Rounds.
+   - Categorized live auction directory with instant status badges, reserve thresholds, and time-remaining indicators.
+2. **Two-Column Detail View (`AuctionDetail.tsx`):**
+   - Comprehensive asset metadata, lot provenance, and multi-tab analysis on the left; sticky interactive sealed-bidding panel on the right.
+3. **Sealed Bidding Engine (`BiddingPanel.tsx`):**
+   - Real-time reserve validation, browser CSPRNG 256-bit salt generator with reveal toggle, and prominent `[ PLACE SEALED BID ]` action.
+   - Interactive 5-stage Halo2 ZK proof stepper (`READ WITNESS` ➔ `HASH` ➔ `PROVE` ➔ `SUBMIT` ➔ `CONFIRMED`).
+   - Integrated judge and evaluator demonstration controls to simulate epoch closures and settlements.
+4. **Witness Isolation & Privacy Explanation (`PrivacyExplanation.tsx`):**
+   - Side-by-side comparison of private client witness state (`████████` masked valuation & salt) and public on-chain consensus state connected through the zero-knowledge verification bridge.
+5. **Sealed Participants Directory (`ParticipantsTable.tsx`):**
+   - Anonymized bidder directory displaying cryptographic commitment hashes, timestamps, and on-chain verification flags with zero valuation leakage.
+6. **Protocol Security & Privacy Matrix (`SecurityComparison.tsx`):**
+   - Rigorous architectural comparison contrasting traditional cleartext blockchain auctions (MEV front-running, shill bidding, identity leakage) with CloakBid’s zero-knowledge guarantees.
+7. **Settlement & Resolution Protocol (`AuctionResult.tsx`):**
+   - Winner reveal module featuring provably highest bidder verification, clearing settlement display, and a 6-point cryptographic verification checklist.
+8. **Technical Specifications & Developer Drawer (`TechnicalDetails.tsx`):**
+   - Collapsible developer and auditor drawer with verified contract address (`51d23a...8b15`), verification keys, settlement transactions, and Compact circuit logic.
+9. **Confidential Portfolio & Bids Management (`MyBidsView.tsx`):**
+   - Institutional portfolio view allowing participants to track active sealed bids, inspect private witnesses, verify cryptographic receipts, and monitor won settlements.
+10. **5-Step Auction Deployment Wizard (`CreateAuctionView.tsx`):**
+    - Step-by-step workflow for configuring asset provenance, economic reserve rules, ZK circuit parameters, and pre-flight contract deployment to Midnight Preprod.
+11. **Institutional Telemetry & Analytics (`AnalyticsView.tsx`):**
+    - Real-time protocol volume metrics, 7-day bidding trend graphs, Halo2 PLONKish prover benchmarks, and live Midnight Preprod consensus telemetry.
 
 ---
 
