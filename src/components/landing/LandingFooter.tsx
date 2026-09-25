@@ -1,5 +1,6 @@
 import React from 'react';
 import { Shield, Github, ExternalLink } from 'lucide-react';
+import cloakVaultBanner from '../../assets/images/cloak_vault_banner.png';
 
 interface Props {
   onEnterApp: () => void;
@@ -79,6 +80,32 @@ export const LandingFooter: React.FC<Props> = ({ onEnterApp }) => {
       className="py-16 px-5 sm:px-8"
     >
       <div className="max-w-content mx-auto">
+        {/* Cloak Vault Visual Banner in Footer */}
+        <div className="mb-14 overflow-hidden rounded-2xl border border-[rgba(255,255,255,0.08)] bg-gradient-to-b from-[#12151B] to-[#08090C] p-2 sm:p-3 shadow-2xl relative group">
+          <div className="relative overflow-hidden rounded-xl">
+            <img
+              src={cloakVaultBanner}
+              alt="CloakBid Zero-Knowledge Execution Vault"
+              className="w-full h-auto object-cover rounded-xl transition-transform duration-700 group-hover:scale-[1.01]"
+              loading="lazy"
+            />
+            {/* Subtle overlay gradient */}
+            <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#08090C]/60 via-transparent to-transparent" />
+
+            {/* Overlay badge info */}
+            <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-xs">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#08090C]/85 backdrop-blur-md border border-white/10 text-cb-t2 font-mono text-[11px]">
+                <span className="w-1.5 h-1.5 rounded-full bg-cb-accent" />
+                THE CLOAK VAULT — ZERO-KNOWLEDGE EXECUTION ENVIRONMENT
+              </span>
+              <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#08090C]/85 backdrop-blur-md border border-white/10 text-cb-success font-mono text-[11px]">
+                <span className="w-1.5 h-1.5 rounded-full bg-cb-success" />
+                ON-CHAIN VERIFIED
+              </span>
+            </div>
+          </div>
+        </div>
+
         {/* Main grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8">
 

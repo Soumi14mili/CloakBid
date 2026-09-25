@@ -5,6 +5,7 @@ import { AuctionDetailView } from './AuctionDetailView';
 import { MyBidsPage } from './MyBidsPage';
 import { CreateAuctionPage } from './CreateAuctionPage';
 import { AnalyticsPage } from './AnalyticsPage';
+import cloakVaultBanner from '../../assets/images/cloak_vault_banner.png';
 import type { useCloakBid } from '../../hooks/useCloakBid';
 import type { useLaceWallet } from '../../hooks/useLaceWallet';
 
@@ -113,10 +114,20 @@ export const AppShell: React.FC<Props> = ({
       </main>
 
       {/* App bottom subtle bar */}
-      <footer className="border-t border-[rgba(255,255,255,0.04)] py-6 px-5 sm:px-8 bg-cb-sub text-center text-xs text-cb-t3">
-        <div className="max-w-content mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-          <span>CloakBid Protocol — Zero-Knowledge Sealed-Bid Infrastructure</span>
-          <span className="font-mono">Midnight Preview Contract: 51d23a...8b15</span>
+      <footer className="border-t border-[rgba(255,255,255,0.04)] py-8 px-5 sm:px-8 bg-cb-sub text-center text-xs text-cb-t3">
+        <div className="max-w-content mx-auto space-y-6">
+          <div className="overflow-hidden rounded-xl border border-[rgba(255,255,255,0.06)] bg-gradient-to-b from-[#12151B] to-[#08090C] p-2 shadow-lg max-w-4xl mx-auto">
+            <img
+              src={cloakVaultBanner}
+              alt="CloakBid Zero-Knowledge Execution Vault"
+              className="w-full h-auto object-cover rounded-lg"
+              loading="lazy"
+            />
+          </div>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+            <span>CloakBid Protocol — Zero-Knowledge Sealed-Bid Infrastructure</span>
+            <span className="font-mono">Midnight Preview Contract: 51d23a...8b15</span>
+          </div>
         </div>
       </footer>
     </div>

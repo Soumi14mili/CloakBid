@@ -1,11 +1,22 @@
 import React from 'react';
 import { Shield, ExternalLink, Github, Twitter, Terminal, CheckCircle2 } from 'lucide-react';
 import cloakbidLogo from '../assets/images/cloakbid_logo.svg';
+import cloakVaultBanner from '../assets/images/cloak_vault_banner.png';
 
 export const Footer: React.FC = () => {
   return (
     <footer className="border-t border-white/[0.08] bg-[#070A0F] py-12 mt-20 relative z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        {/* Cloak Vault Visual Banner */}
+        <div className="overflow-hidden rounded-2xl border border-white/10 bg-slate-900/60 p-2 shadow-2xl">
+          <img
+            src={cloakVaultBanner}
+            alt="CloakBid Zero-Knowledge Execution Vault"
+            className="w-full h-auto object-cover rounded-xl"
+            loading="lazy"
+          />
+        </div>
+
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           {/* Logo & Protocol Info */}
           <div className="space-y-3 max-w-sm">
